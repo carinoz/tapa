@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TAPAS MOVIDA</title>
+
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" type="text/css" href="css/jquery.jscrollpane.css">
+<link rel="stylesheet" href="css/magnific-popup.css"> 
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 	
+
+ <script type="text/javascript">
+
+</script>
+</head>
+
+<body>
+
+<script>
+	
+	var order_list =[],order_display=[];total_order = 0	,up = "up",down = "down",no=0,order_confirm=[],no_bev = 0,bev_menu =[],bev_price=[],bev_id =[],bev_name=[];
+	
+	function setQuantityBevUp(seq) 
+	{
+		var quantity = document.getElementById('qty'+seq);
+
+		var upordown = "up";
+		if (quantity.value > 0) {
+			if (upordown == 'up'){++document.getElementById('qty'+seq).value;}
+			else if (upordown == 'down'){--document.getElementById('qty').value;}}
+		else if (quantity.value == 0) {
+			if (upordown == 'up'){++document.getElementById('qty'+seq).value;}}
+		else
+			{document.getElementById('qty'+seq).value=0;}
+	}
+	
+	function setQuantityBevDown(seq)
+	{
+		var quantity = document.getElementById('qty'+seq);
+		if (quantity.value > 0) 
+		{
+			--document.getElementById('qty'+seq).value;
+		}
+		else if (quantity.value == 0) 
+		{
+			document.getElementById('qty'+seq).value=0;
+		}
+	}
+		
+	
+	
+	function setOrderUp(no,menu_name,price,product_id)
+	{
+//		alert();
+		var str = $("#subtotal"+no).html();
+		var subtotal = str.replace(",","");
+		//alert(subtotal);
+		var qty = $("#qty"+no).html();
+		var new_subtotal = parseFloat(price) + parseFloat(subtotal);
+		
+		var str_total = $("#total_order").html();
+		var total_order2 = str_total.replace(",","");
+		
+		 total_order =  parseFloat(total_order) + parseFloat(price);
+		var upordown = "up";
+		if (parseInt(qty) > 1) 
+		{
+			if (upordown == 'up')
+			{
+				qty = parseInt(qty) + 1;
+				$("#qty"+no).html(qty);
+			}
+			else if (upordown == 'down')
+			{
+				qty = parseInt(qty) - 1;
+				$("#qty"+no).html(qty);
+			}
+		}
+		else if (qty == 1) 
+		{
+			if (upordown == 'up')
+			{
+				qty = parseInt(qty) + 1;
+				$("#qty"+no).html(qty);
+			}
+		}
+		else
+		{
+			$("#qty"+no).html("1");
+		}
+		order_confirm[no] ='<li><h4>'+menu_name+'<h4> '+qty+' x '+numberWithCommas(price)+'<div class="" align="right">'+numberWithCommas(parseInt(price) * parseInt(qty))+'</div></h4></li>';			
+		order_list[no] = [product_id,menu_name,qty,new_subtotal];
+		$("#subtotal"+no).html(numberWithCommas(new_subtotal));
+		$("#total_order").html(numberWithCommas(total_order));
+//		total_order = new_totalorder;
+		//document.getElementById("total_order").innerHTML = numberWithCommas(total_order);
+	}
+	
+	
+	function setOrderDown(no,menu_name,price,product_id)
+	{
+//		alert();
+		var str = $("#subtotal"+no).html();
+		var subtotal = str.replace(",","");
+		//alert(subtotal);
+		var qty = $("#qty"+no).html();
+		
+		var str_total = $("#total_order").html();
+		var total_order2 = str_total.replace(",","");
+		var new_subtotal = "";
+		var new_totalorder =  "";
+		var upordown = "down";
+		
+		
+		if (parseInt(qty) > 1 && product_id != '8ccbf96d-aa7f-4f91-9359-03138080f531') 
+		{
+			if (upordown == 'up')
+			{
+				qty = parseInt(qty) + 1;
+				$("#qty"+no).html(qty);
+			}
+			else if (upordown == 'down')
+			{
+				//alert( parseInt(total_order)+" dan "+parseInt(price) )
+				new_subtotal =  parseInt(subtotal) - parseInt(price);
+				total_order = parseInt(total_order) - parseInt(price);
+				new_totalorder = parseInt(total_order) - parseInt(price);
+				order_list[no] = [product_id,menu_name,qty,new_subtotal];
+				qty = parseInt(qty) - 1;
+				order_confirm[no] ='<li><h4>'+menu_name+'<h4> '+qty+' x '+numberWithCommas(price)+'<div class="" align="right">'+numberWithCommas(parseInt(price) * parseInt(qty))+'</div></h4></li>';
+				
+				$("#qty"+no).html(qty);						
+				$("#subtotal"+no).html(numberWithCommas(new_subtotal));
+				$("#total_order").html(numberWithCommas(total_order));
+			}
+		}
+		else if (qty == 1 && product_id != '8ccbf96d-aa7f-4f91-9359-03138080f531') 
+		{
+			if (upordown == 'up')
+			{
+				qty = parseInt(qty) + 1;
+				$("#qty"+no).html(qty);
+			}
+			else if(upordown == 'down')
+			{
+				new_totalorder = parseInt(total_order2) - parseInt(price);
+				total_order = parseInt(total_order) - parseInt(price);
+				$("#total_order").html(numberWithCommas(total_order));
+				delete order_display[no];
+				delete order_list[no];
+				delete order_confirm[no];
+				document.getElementById("order_list").innerHTML = order_display.join('');
+				
+			}
+		}
+		else if(product_id = '8ccbf96d-aa7f-4f91-9359-03138080f531' && qty == 4)
+		{
+			new_totalorder = parseInt(total_order2) - parseInt(price) * 4;
+			total_order = parseInt(total_order) - parseInt(price) * 4;
+			
+			$("#total_order").html(numberWithCommas(total_order));
+			delete order_display[no];
+			delete order_list[no];
+			delete order_confirm[no];
+			document.getElementById("order_list").innerHTML = order_display.join('');
+		}
+		else if(product_id = '8ccbf96d-aa7f-4f91-9359-03138080f531' && qty == 2)
+		{
+		
+			new_totalorder = parseInt(total_order2) - parseInt(price) * 2;
+			total_order = parseInt(total_order) - parseInt(price) * 2;
+			
+			$("#total_order").html(numberWithCommas(total_order));
+			delete order_display[no];
+			delete order_list[no];
+			delete order_confirm[no];
+			document.getElementById("order_list").innerHTML = order_display.join('');
+	
+		}
+		
+		//document.getElementById("total_order").innerHTML = numberWithCommas(total_order);
+	}
+		
+	function setQuantity(upordown) 
+	{
+		var quantity = document.getElementById('qty');
+
+		if (quantity.value > 1) {
+			if (upordown == 'up'){++document.getElementById('qty').value;}
+			else if (upordown == 'down'){--document.getElementById('qty').value;}}
+		else if (quantity.value == 1) {
+			if (upordown == 'up'){++document.getElementById('qty').value;}}
+		else
+			{document.getElementById('qty').value=1;}
+	}
+	
+	function setQuantityUp() 
+	{
+		var quantity = document.getElementById('qty');
+		var upordown = "up";
+		if (quantity.value > 1) {
+			if (upordown == 'up'){++document.getElementById('qty').value;}
+			else if (upordown == 'down'){--document.getElementById('qty').value;}}
+		else if (quantity.value == 1) {
+			if (upordown == 'up'){++document.getElementById('qty').value;}}
+		else
+			{document.getElementById('qty').value=1;}
+	}
+	
+	function setQuantityDown()
+	{
+		var quantity = document.getElementById('qty');
+		if (quantity.value > 1) 
+		{
+			--document.getElementById('qty').value;
+		}
+		else if (quantity.value == 1) 
+		{
+			document.getElementById('qty').value=1;
+		}
+	}
+	
+	function add_new_bev(cat_id)
+	{
+		var x = 1;
+		var menu_name = [];
+		var qty = '';
+		var magnificPopup = $.magnificPopup.instance;
+		var menu_type = '';
+		for(x = 0;x < no_bev;x++ )
+		{	
+			qty = $('#qty'+x).val();	
+			if(qty != "0" && qty != 0)
+			{
+					
+					
+
+				price = parseInt(bev_price[x])/1000;
+				menu_name = bev_name[x];
+				//product_id = result_item[prod_item].ProductUUID.toString();
+				order_display.push('<li><h4>'+menu_name+'</h4><p><span id="qty'+no+'">'+qty+'</span> x '+numberWithCommas(price)+' <input id="'+qty+'" type="button" class="plus" onclick="setOrderUp(\''+no+'\',\''+menu_name+'\',\''+price+'\',\''+bev_id[x]+'\')" /> <input type="button" class="minus" onclick="setOrderDown(\''+no+'\',\''+menu_name+'\',\''+price+'\',\''+bev_id[x]+'\')"  /></p><div class="price" id="subtotal'+no+'">'+numberWithCommas(price) * parseInt(qty)+'</div></li>');
+				order_confirm.push('<table border="1px" width="100%"><tr><td align="left" width="65%">'+bev_name[x]+'</td><td width="20%">'+qty+' x '+numberWithCommas(price)+'<td width="15%">'+numberWithCommas(price) * parseInt(qty)+'</td></tr></table><br>');
+					
+	
+				//alert(cat_id);
+				alert(menu_name +' has been added to order list !');
+				$("#list_order").hide().fadeIn('fast');
+				subtotal = parseInt(price) * parseInt(qty);
+				document.getElementById("order_list").innerHTML = order_display.join('');
+				total_order = Number(total_order) + Number(subtotal);
+				document.getElementById("total_order").innerHTML = numberWithCommas(total_order);
+				
+				if(cat_id == 'de91bcef-d3fc-44a1-a314-fe0bc63f7b6e' || cat_id == '116d3007-5c6b-4bf5-96b9-7a8eb423f81d')
+				{
+					menu_type = "Serve type : " + $('#menu_type').val();
+					
+					order_list.push([bev_id[x],menu_name,qty,subtotal,menu_type]);
+				}
+				else
+				{
+					order_list.push([bev_id[x],menu_name,qty,subtotal,menu_type]);
+				}
+
+						
+	
+				++no;	
+			}
+	
+			
+		}
+				bev_menu.length =0;
+			bev_price.length =0;
+			bev_id.length = 0;
+			bev_name.length = 0;
+		magnificPopup.close(); 
+		
+	}
+	
+	
+	
+	function add_new_item(product_id)
+	{
+		var qty = $('#qty').val();
+		var side_dish_id = $('#side_dish').val();
+		//var pasta_type = $('#pasta_type').val();
+		var menu_name = '';
+		var subtotal = 0;
+		var price = '';
+		var pasta_type = '';
+		var menu_type = $('#menu_type').val();
+		var cat_id = ''
+		var magnificPopup = $.magnificPopup.instance;
+		
+		$.ajax
+		({
+			type: "POST",
+			url : "http://tapas.ifabula.com/tapas_controller/display_prod_detail/"+product_id,
+			data : "ProductUUID="+product_id,
+			//contentType: "application/json;charset=utf-8",
+			dataType: "json",
+			success: function(result_item)
+			{
+				for (var prod_item in result_item)
+				{
+
+					price = parseInt(result_item[prod_item].price.toString())/1000;
+					menu_name = result_item[prod_item].product_name.toString();
+					//product_id = result_item[prod_item].ProductUUID.toString();
+					if(result_item[prod_item].CategoryUUID.toString() == '8ccbf96d-aa7f-4f91-9359-03138080f531')
+					{
+						cat_id = '8ccbf96d-aa7f-4f91-9359-03138080f531';
+						if(qty == "2")
+						{
+							price = parseInt(result_item[prod_item].price.toString()) / 2;
+						}
+						else if (qty == "4")
+						{
+							price = parseInt(result_item[prod_item].s_price.toString()) / 4;
+						}
+						order_display.push('<li><h4>'+result_item[prod_item].product_name.toString()+'</h4><p><span id="qty'+no+'">'+qty+'</span> x '+numberWithCommas(parseInt(price)/1000)+' <input type="button" class="minus" onclick="setOrderDown(\''+no+'\',\''+menu_name+'\',\''+parseInt(price)/1000+'\',\''+cat_id+'\')"  /></p><div class="price" id="subtotal'+no+'">'+numberWithCommas(parseInt(price)/1000 * parseInt(qty))+'</div></li>');
+						order_confirm.push('<table border="1px" width="100%"><tr><td align="left" width="65%">'+result_item[prod_item].product_name.toString()+'</td><td width="20%">'+qty+' x '+numberWithCommas(parseInt(price)/1000)+'<td width="15%">'+numberWithCommas(parseInt(price)/1000 * parseInt(qty))+'</td></tr></table><br>');
+						subtotal = parseInt(price)/1000 * parseInt(qty);
+						
+							alert(menu_name +' has been added to order list !');
+					
+						$("#list_order").hide().fadeIn('fast');
+						
+						document.getElementById("order_list").innerHTML = order_display.join('');
+						total_order = Number(total_order) + Number(subtotal);
+						//document.getElementById("total_order").innerHTM = '';
+						document.getElementById("total_order").innerHTML = numberWithCommas(total_order);
+						if(result_item[prod_item].CategoryUUID.toString() == '26b4551c-656a-413d-b2a1-bf6710fd9f2d')
+						{
+							pasta_type = "Pasta type : " + $('#pasta_type').val();
+							order_list.push([product_id,menu_name,qty,subtotal,pasta_type]);
+						}
+						else if(result_item[prod_item].CategoryUUID.toString() == '1a4bf4f1-459f-49c0-b8ef-12810ae93560' && result_item[prod_item].is_gluttonfree.toString() == '0')
+						{
+							menu_type =  $('#menu_type').val();
+							order_list.push([product_id,menu_name,qty,subtotal,menu_type]);
+						}
+					
+						else
+						{
+							order_list.push([product_id,menu_name,qty,subtotal,pasta_type]);
+						}
+					}
+					else if(result_item[prod_item].CategoryUUID.toString() == "1a4bf4f1-459f-49c0-b8ef-12810ae93560")
+					{
+						var subtotal_side = '';
+						order_display.push('<li><h4>'+result_item[prod_item].product_name.toString()+'</h4><p><span id="qty'+no+'">'+qty+'</span> x '+numberWithCommas(parseInt(result_item[prod_item].price.toString())/1000)+' <input id="'+qty+'" type="button" class="plus" onclick="setOrderUp(\''+no+'\',\''+menu_name+'\',\''+price+'\',\''+product_id+'\')" /> <input type="button" class="minus" onclick="setOrderDown(\''+no+'\',\''+menu_name+'\',\''+price+'\',\''+product_id+'\')"  /></p><div class="price" id="subtotal'+no+'">'+numberWithCommas(parseInt(result_item[prod_item].price.toString())/1000 * parseInt(qty))+'</div></li>');
+						order_confirm.push('<table border="1px" width="100%"><tr><td align="left" width="65%">'+result_item[prod_item].product_name.toString()+'</td><td width="20%">'+qty+' x '+numberWithCommas(parseInt(result_item[prod_item].price.toString())/1000)+'<td width="15%">'+numberWithCommas(parseInt(result_item[prod_item].price.toString())/1000 * parseInt(qty))+'</td></tr></table><br>');
+						subtotal = parseInt(result_item[prod_item].price.toString())/1000 * parseInt(qty);
+						total_order = Number(total_order) + Number(subtotal);
+						$.ajax
+						({
+							type: "POST",
+							url : "http://tapas.ifabula.com/tapas_controller/display_prod_detail/"+side_dish_id,
+							data : "ProductUUID="+side_dish_id,
+							//contentType: "application/json;charset=utf-8",
+							dataType: "json",
+							success: function(result_side_item)
+							{
+								for (var prod_side_item in result_side_item)
+								{
+									order_display.push('<li><h4> Sidedish : '+result_side_item[prod_side_item].product_name.toString()+'</h4><p><span id="qty'+no+'">'+qty+'</span> x '+numberWithCommas(parseInt(result_side_item[prod_side_item].price.toString())/1000)+' <input id="'+qty+'" type="button" class="plus" onclick="setOrderUp(\''+no+'\',\''+menu_name+'\',\''+price+'\',\''+product_id+'\')" /> <input type="button" class="minus" onclick="setOrderDown(\''+no+'\',\''+menu_name+'\',\''+price+'\',\''+product_id+'\')"  /></p><div class="price" id="subtotal'+no+'">'+numberWithCommas(parseInt(result_side_item[prod_side_item].price.toString())/1000 * parseInt(qty))+'</div></li>');
+									order_confirm.push('<table border="1px" width="100%"><tr><td align="left" width="65%">Sidedish : '+result_side_item[prod_side_item].product_name.toString()+'</td><td width="20%">'+qty+' x '+numberWithCommas(parseInt(result_side_item[prod_side_item].price.toString())/1000)+'<td width="15%">'+numberWithCommas(parseInt(result_side_item[prod_side_item].price.toString())/1000 * parseInt(qty))+'</td></tr></table><br>');
+									subtotal_side = parseInt(result_side_item[prod_side_item].price.toString())/1000 * parseInt(qty);
+									
+								}
+								alert(menu_name +' with '+ result_side_item[prod_side_item].product_name.toString() + ' as side dish has been added to order list !');
+					
+								$("#list_order").hide().fadeIn('fast');
+								
+								document.getElementById("order_list").innerHTML = order_display.join('');
+								total_order = Number(total_order) + Number(subtotal_side);
+								//document.getElementById("total_order").innerHTM = '';
+								document.getElementById("total_order").innerHTML = numberWithCommas(total_order);
+								if(result_item[prod_item].CategoryUUID.toString() == '26b4551c-656a-413d-b2a1-bf6710fd9f2d')
+								{
+									pasta_type = "Pasta type : " + $('#pasta_type').val();
+									order_list.push([product_id,menu_name,qty,subtotal,pasta_type]);
+								}
+								else if(result_item[prod_item].CategoryUUID.toString() == '1a4bf4f1-459f-49c0-b8ef-12810ae93560')
+								{
+									if(result_item[prod_item].is_gluttonfree.toString() == "1")
+									{
+										menu_type =  "";
+									}
+									order_list.push([product_id,menu_name,qty,subtotal,menu_type]);									
+									order_list.push([side_dish_id,result_side_item[prod_side_item].product_name.toString(),qty,subtotal_side,menu_type]);
+								}
+							
+								else
+								{
+									order_list.push([product_id,menu_name,qty,subtotal,pasta_type]);
+								}
+							}
+						});
+		
+						
+					}
+					else
+					{
+						order_display.push('<li><h4>'+result_item[prod_item].product_name.toString()+'</h4><p><span id="qty'+no+'">'+qty+'</span> x '+numberWithCommas(parseInt(result_item[prod_item].price.toString())/1000)+' <input id="'+qty+'" type="button" class="plus" onclick="setOrderUp(\''+no+'\',\''+menu_name+'\',\''+price+'\',\''+product_id+'\')" /> <input type="button" class="minus" onclick="setOrderDown(\''+no+'\',\''+menu_name+'\',\''+price+'\',\''+product_id+'\')"  /></p><div class="price" id="subtotal'+no+'">'+numberWithCommas(parseInt(result_item[prod_item].price.toString())/1000 * parseInt(qty))+'</div></li>');
+						order_confirm.push('<table border="1px" width="100%"><tr><td align="left" width="65%">'+result_item[prod_item].product_name.toString()+'</td><td width="20%">'+qty+' x '+numberWithCommas(parseInt(result_item[prod_item].price.toString())/1000)+'<td width="15%">'+numberWithCommas(parseInt(result_item[prod_item].price.toString())/1000 * parseInt(qty))+'</td></tr></table><br>');
+						subtotal = parseInt(result_item[prod_item].price.toString())/1000 * parseInt(qty);
+						
+						alert(menu_name +' has been added to order list !');
+					
+						$("#list_order").hide().fadeIn('fast');
+						
+						document.getElementById("order_list").innerHTML = order_display.join('');
+						total_order = Number(total_order) + Number(subtotal);
+						//document.getElementById("total_order").innerHTM = '';
+						document.getElementById("total_order").innerHTML = numberWithCommas(total_order);
+						if(result_item[prod_item].CategoryUUID.toString() == '26b4551c-656a-413d-b2a1-bf6710fd9f2d')
+						{
+							pasta_type = "Pasta type : " + $('#pasta_type').val();
+							order_list.push([product_id,menu_name,qty,subtotal,pasta_type]);
+						}
+						else if(result_item[prod_item].CategoryUUID.toString() == '1a4bf4f1-459f-49c0-b8ef-12810ae93560' && result_item[prod_item].is_gluttonfree.toString() == '0')
+						{
+							menu_type =  $('#menu_type').val();
+							order_list.push([product_id,menu_name,qty,subtotal,menu_type]);
+						}
+					
+						else
+						{
+							order_list.push([product_id,menu_name,qty,subtotal,pasta_type]);
+						}
+					}
+
+					
+					
+					
+					magnificPopup.close(); 
+						
+				}
+				++no;
+			}
+		});
+		
+		//alert("test" + qty);
+	}
+
+
+var category_name = [],CategoryUUID=[],ParentUUID=[],child_name=[],j=0,x=0,popup_product=[],z=0,
+child_category_name=[],child_category_id=[],category_id,prod_display=[],product_item=[],product_name=[],prod_thumb=[],product_desc=[],product_price=[];
+
+$(document).on('click', '.open-popup-link',function()
+{
+	var product_id = $(this).attr('id');
+	var side_dish = [];
+	var side_dish_id = '73abac22-78d7-421f-a26d-4023596770cf';
+	$.ajax
+	({
+		type: "POST",
+		url : "http://tapas.ifabula.com/tapas_controller/display_prod_detail/"+product_id,
+		data : "ProductUUID="+product_id,
+		//contentType: "application/json;charset=utf-8",
+		dataType: "json",
+		success: function(result_item)
+		{
+			
+			for (var prod_item in result_item)
+			{
+					
+				  var popupSRC = $(this).parent('li').next('div.popup-product');
+				  if( result_item[prod_item].CategoryUUID.toString() == '26b4551c-656a-413d-b2a1-bf6710fd9f2d')
+				  {
+					  $.magnificPopup.open({
+					  items: 
+					  {
+					 src: '<div id="popup-product'+result_item[prod_item].ProductUUID.toString()+'" class="popup-product"><div class="popup-product-img"><img src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/><h1>'+result_item[prod_item].product_name.toString()+'</h1></div><p class="popup-product-description">'+result_item[prod_item].description.toString()+'</p><div class="popup-product-option tombol-button">QUANTITY &nbsp;  <input id="down" onClick="setQuantityDown()" type="button" class="minus"  /> <input id="qty" type="text" value="1" min="0" /><select name="pasta_type" id="pasta_type"><option  value="Linguini">Linguini</option><option value="Spaghetti">Spaghetti</option><option value="Penne">Penne</option></select> &nbsp<input id="up"  type="button" class="plus" onclick="setQuantityUp()" /> <input type="submit" value="ORDER" onclick="add_new_item(\''+result_item[prod_item].ProductUUID.toString()+'\')" /></div></div>',
+					  },
+					  type: 'inline'
+					   });
+				  }
+				  
+				  else  if( result_item[prod_item].CategoryUUID.toString() == '1a4bf4f1-459f-49c0-b8ef-12810ae93560' && result_item[prod_item].is_gluttonfree.toString() == '0'  )
+				  {
+					 $.ajax
+							({
+								type: "POST",
+								url : "http://tapas.ifabula.com/tapas_controller/display_child_item/"+side_dish_id,
+								data : "CategoryUUID="+side_dish_id,
+								//contentType: "application/json;charset=utf-8",
+								dataType: "json",
+								success: function(result_side)
+								{
+									for (var prod_side in result_side)
+									{
+											side_dish.push('<option value="'+result_side[prod_side].ProductUUID.toString()+'">'+result_side[prod_side].product_name.toString()+' | '+numberWithCommas(result_side[prod_side].price.toString())+'</option>');
+									}
+									$.magnificPopup.open
+									({
+									  items: 
+									  {
+											src: '<div id="popup-product'+result_item[prod_item].ProductUUID.toString()+'" class="popup-product"><div class="popup-product-img"><img src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/><h1>'+result_item[prod_item].product_name.toString()+'</h1></div><p class="popup-product-description">'+result_item[prod_item].description.toString()+'</p><div class="popup-product-option tombol-button">QUANTITY &nbsp;  <input id="down" onClick="setQuantityDown()" type="button" class="minus"  /> <input id="qty"  readonly type="text" value="1" min="0" /> &nbsp<input id="up"  type="button" class="plus" onclick="setQuantityUp()" />  &nbsp;  <select name="menu_type" id="menu_type"><option  value="Glutten">Glutten with sauce</option><option value="Glutten Free">Glutten Free</option></select>  <br><br> SIDE DISH  &nbsp  &nbsp<select name="side_dish" id="side_dish">'+side_dish.join("")+'</select> <br> <input type="submit" value="ORDER" onclick="add_new_item(\''+result_item[prod_item].ProductUUID.toString()+'\')" /></div></div>',
+									  },
+									  type: 'inline'
+									 });
+								}
+							})
+				  }
+				   else if( result_item[prod_item].CategoryUUID.toString() == '1a4bf4f1-459f-49c0-b8ef-12810ae93560' && result_item[prod_item].is_gluttonfree.toString() == '1'  )
+					  {
+						  
+						 
+						 	 $.ajax
+							({
+								type: "POST",
+								url : "http://tapas.ifabula.com/tapas_controller/display_child_item/"+side_dish_id,
+								data : "CategoryUUID="+side_dish_id,
+								//contentType: "application/json;charset=utf-8",
+								dataType: "json",
+								success: function(result_side)
+								{
+									for (var prod_side in result_side)
+									{
+										side_dish.push('<option value="'+result_side[prod_side].ProductUUID.toString()+'">'+result_side[prod_side].product_name.toString()+' | '+numberWithCommas(result_side[prod_side].price.toString())+'</option>');
+									}
+									$.magnificPopup.open
+									({
+									  items: 
+									  {
+											src: '<div id="popup-product'+result_item[prod_item].ProductUUID.toString()+'" class="popup-product"><div class="popup-product-img"><img src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/><h1>'+result_item[prod_item].product_name.toString()+'</h1></div><p class="popup-product-description">'+result_item[prod_item].description.toString()+'</p><div class="popup-product-option tombol-button">QUANTITY &nbsp;  <input id="down" onClick="setQuantityDown()" type="button" class="minus"  /> <input id="qty"  readonly type="text" value="1" min="0" /> &nbsp<input id="up"  type="button" class="plus" onclick="setQuantityUp()" />  &nbsp;   <br><br> SIDE DISH  &nbsp  &nbsp<select name="side_dish" id="side_dish">'+side_dish.join("")+'</select> <br> <input type="submit" value="ORDER" onclick="add_new_item(\''+result_item[prod_item].ProductUUID.toString()+'\')" /></div></div>',
+									  },
+									  type: 'inline'
+									 });
+								}
+							})
+							
+							
+						  
+					  }
+				  
+				   else  if( result_item[prod_item].CategoryUUID.toString() == '8ccbf96d-aa7f-4f91-9359-03138080f531'  )
+				  {
+						
+					  $.magnificPopup.open({
+					  items: 
+					  {
+						src: '<div id="popup-product'+result_item[prod_item].ProductUUID.toString()+'" class="popup-product"><div class="popup-product-img"><img src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/><h1>'+result_item[prod_item].product_name.toString()+'</h1></div><p class="popup-product-description">'+result_item[prod_item].description.toString()+'</p><div class="popup-product-option tombol-button">QUANTITY &nbsp; <select name="qty" id="qty"><option  value="2">2 pax</option><option value="4">4 Pax </option></select> &nbsp <input type="submit" value="ORDER" onclick="add_new_item(\''+result_item[prod_item].ProductUUID.toString()+'\')" /></div></div>',
+					  },
+					  type: 'inline'
+					   });
+				  }
+				
+				  else
+				  {
+					
+					  $.magnificPopup.open({
+					  items: 
+					  {
+						src: '<div id="popup-product'+result_item[prod_item].ProductUUID.toString()+'" class="popup-product"><div class="popup-product-img"><img src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/><h1>'+result_item[prod_item].product_name.toString()+'</h1></div><p class="popup-product-description">'+result_item[prod_item].description.toString()+'</p><div class="popup-product-option">QUANTITY &nbsp;  <input id="down" onClick="setQuantityDown()" type="button" class="minus"  /> <input id="qty"  readonly type="text" value="1" min="0" /> <input id="up"  type="button" class="plus" onclick="setQuantityUp()" /> <input type="submit" value="ORDER" onclick="add_new_item(\''+result_item[prod_item].ProductUUID.toString()+'\')" /></div></div>',
+					  },
+					  type: 'inline'
+				  });
+				  }
+			
+			}
+		}
+	});
+});
+
+$(document).on('click', '.open-popup-category-link',function()
+{
+	var CategoryUUID = $(this).attr('id');
+	var category_name = "";
+	var cat_child = [];
+	var seq = 0;
+	no_bev = 0;
+	
+	
+	bev_menu.length =0;
+	bev_price.length =0;
+	bev_id.length = 0;
+
+	$.ajax
+	({
+		type: "POST",
+		url : "http://tapas.ifabula.com/tapas_controller/display_child_item/"+CategoryUUID,
+		data : "CategoryUUID="+CategoryUUID,
+		//contentType: "application/json;charset=utf-8",
+		dataType: "json",
+		success: function(result_item)
+		{
+			cat_child.push();
+			for (var prod_item in result_item)
+			{
+
+				 category_name = result_item[prod_item].category_name.toString();
+				 if(result_item[prod_item].CategoryUUID.toString() == 'de91bcef-d3fc-44a1-a314-fe0bc63f7b6e' || result_item[prod_item].CategoryUUID.toString() ==  '116d3007-5c6b-4bf5-96b9-7a8eb423f81d')
+				 {
+					 cat_child.push('<table border="1px" width="100%" class=""><tr><td align="left" width="45%" ><div class="popup-product-option tombol-button">'+result_item[prod_item].product_name.toString()+'</td><td width="55%">'+parseInt(result_item[prod_item].price.toString())/1000+'&nbsp; &nbsp; &nbsp; &nbsp;<select name="menu_type" id="menu_type"><option  value="Hot">Hot</option><option value="Cold">Cold</option></select>&nbsp; &nbsp;<input id="down" onClick="setQuantityBevDown(\''+seq+'\')" type="button" class="minus"  /> &nbsp; &nbsp; &nbsp; &nbsp;<input id="qty'+seq+'" size="1" type="text" value="0" readonly min="0" /> &nbsp; &nbsp;<input id="up"  type="button" class="plus" onclick="setQuantityBevUp(\''+seq+'\')" /></div></td></tr></table><br><br>');
+				 }
+				 else
+				 {
+					cat_child.push('<table border="1px" width="100%"><tr><td align="left" width="45%"><div class="popup-product-option">'+result_item[prod_item].product_name.toString()+'</td><td width="55%">'+parseInt(result_item[prod_item].price.toString())/1000+'&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<input id="down" onClick="setQuantityBevDown(\''+seq+'\')" type="button" class="minus"  />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<input id="qty'+seq+'" size="1" type="text" value="0" readonly min="0" />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<input id="up"  type="button" class="plus" onclick="setQuantityBevUp(\''+seq+'\')" /></div></td></tr></table><br><br>');
+				 }
+				 seq = seq + 1;
+				 no_bev = no_bev + 1;
+				 bev_name.push(result_item[prod_item].product_name.toString());
+				 bev_price.push(result_item[prod_item].price.toString());
+				 bev_id.push(result_item[prod_item].ProductUUID.toString())
+			}
+			 if( CategoryUUID == 'de91bcef-d3fc-44a1-a314-fe0bc63f7b6e')
+			  {
+				  $.magnificPopup.open({
+				  items: 
+				  {
+				 src: '<div id="popup-product" class="popup-product"><div class="popup-product-img"><h1 style="padding-bottom:30px">'+category_name+'</h1></div><p class="popup-product-description"></p><ul>'+cat_child.join("")+'</ul> <br><div class=" tombol-button"><input type="submit" value="ORDER" onClick="add_new_bev(\''+result_item[prod_item].CategoryUUID.toString()+'\')"  /></div></div>',
+				  },
+				  type: 'inline'
+				   });
+			  }
+			  else 
+			  {
+				 $.magnificPopup.open
+				 ({
+					  items: 
+					  {
+							src: '<div id="popup-product" class="popup-product"><h1 style="padding-bottom:30px">'+category_name+'</h1><p class="popup-product-description"></p><ul>'+cat_child.join("")+'</ul> <br><div class=" tombol-button"><input type="submit" value="ORDER" onClick="add_new_bev(\''+CategoryUUID+'\')"  /></div></div>',
+					 },
+					  type: 'inline'
+				});
+			}
+		}
+	});
+});
+
+function confirm_order()
+{
+	var list_of_order_display = order_confirm.join('');
+	$.magnificPopup.open({
+	  items: 
+	  {
+		src: '<div class="popup-product"><h1>Confirmation Order</hi><br><br><div class="right-content-row order-list "><p class="title">YOUR ORDER LIST</p><br><ul>'+list_of_order_display+'</ul></div><div class="right-content-row order-total">TOTAL <span>'+numberWithCommas(total_order)+'</span>	<div class="tombol-button"><input style="padding:10px" type="submit" value="Submit Order" onclick="submit_order()" /></div></div>'	,
+	  },
+	  type: 'inline'
+	});
+}
+
+function submit_order()
+{	
+	var magnificPopup = $.magnificPopup.instance;
+	var obj_order = JSON.stringify(order_list,['ProductUUID','product_name','qty','subtotal']);
+	var str_total = $("#total_order").html();
+	var new_subtotal = parseInt(str_total.replace(",",""))*1000;
+	
+	var ppn = parseInt(new_subtotal) * 0.1;
+	var service_fee = parseInt(new_subtotal) * 0.05;
+	//var new_subtotal = parseInt(total_order.replace(",","")) * 1000;
+	var grand_total = parseInt(new_subtotal) + parseInt(ppn) + parseInt(service_fee);
+	$.ajax
+	({
+		type: "POST",
+		url : "http://tapas.ifabula.com/tapas_controller/submit_order/",
+		data : "order_list="+obj_order+"&EmployeeUUID="+sessionStorage.UserUUID+"&CustomerEmail="+sessionStorage.CustomerEmail+"&table_no="+sessionStorage.table_no+"&subtotal="+new_subtotal+"&ppn="+ppn+"&fee="+service_fee+"&grand_total="+grand_total,
+		//contentType: "application/json;charset=utf-8",
+		dataType: "json",
+		success: function(result_item)
+		{
+
+		}
+	});
+	
+		alert("Orders have been successfully submitted ! Thank you for your orders and Please wait !");
+		sessionStorage.clear();
+		window.location.replace("index.html");
+}
+
+			
+	
+		
+	function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+	
+	function reload_child_item(SelectedCategoryUUID,SelectedParentUUID)
+	{	
+		child_category_name.length = 0;
+		prod_display.length = 0;	
+		category_name.length = 0;
+		child_category_name.length = 0;
+		
+		bev_menu.length =0;
+		bev_price.length =0;
+		bev_id.length = 0;
+		bev_name.length = 0;
+
+		var  child_default_name = '';
+		///alert("bah");
+		var o = '847e46b6-5ee0-4282-85d9-cdca4896727f';
+		var i = 0;
+		var x = 0;
+		var cat_name = '';
+		$.ajax({
+		type: "POST",
+		url : "http://tapas.ifabula.com/tapas_controller/display_child_category/"+SelectedParentUUID,
+		data : "CategoryUUID="+SelectedParentUUID,
+		//contentType: "application/json;charset=utf-8",
+		dataType: "json",
+		success: function(result_child)
+		{
+			
+			
+			for (var item_child in result_child)
+			{
+				i = i+1;
+				
+				if(SelectedCategoryUUID != result_child[item_child].CategoryUUID.toString())
+				{	
+					child_category_name.push('<li><a href="#'+result_child[item_child].CategoryUUID.toString()+'" onclick="reload_child_item(\''+result_child[item_child].CategoryUUID.toString()+'\',\''+result_child[item_child].ParentUUID.toString()+'\');">'+result_child[item_child].category_name.toString()+'</a></li>');
+					child_category_id.push(result_child[item_child].CategoryUUID.toString());
+					//child_name.push(result_child[item_child].category_name.toString());
+					
+				}
+				else 
+				{
+					child_default_name = result_child[item_child].category_name.toString();
+					child_category_name.push('<li class="active"><a href="#'+result_child[item_child].CategoryUUID.toString()+'" onclick="reload_child_item(\''+result_child[item_child].CategoryUUID.toString()+'\',\''+result_child[item_child].ParentUUID.toString()+'\');">'+result_child[item_child].category_name.toString()+'</a></li>');
+					child_category_id.push(result_child[item_child].CategoryUUID.toString());
+					cat_name = result_child[item_child].category_name.toString();
+					ProductCat = result_child[item_child].CategoryUUID.toString();
+				}
+				document.getElementById("tab_child").innerHTML = child_category_name.join('');
+				
+			}
+		}
+		})
+		
+		if(SelectedParentUUID != 'fac3e581-e795-4aed-bfe6-71d854e997d4')
+		{
+			var x = 0;
+			$.ajax({
+			type: "POST",
+			url : "http://tapas.ifabula.com/tapas_controller/display_child_item/"+SelectedCategoryUUID,
+			data : "CategoryUUID="+SelectedCategoryUUID,
+			//contentType: "application/json;charset=utf-8",
+			dataType: "json",
+			success: function(result_item)
+			{
+			
+				for (var prod_item in result_item)
+				{
+					x = x+1;
+					if(x == 1)
+					{
+						//alert(i);
+						//prod_display.push('<div id='+result_child[item_child].CategoryUUID.toString()+'>');
+						prod_display.push('<h1>'+result_item[prod_item].category_name.toString()+'</h1>');
+						prod_display.push('<ul>');
+						//document.getElementById("prod_item").innerHTML = prod_display.join('');
+						if(result_item[prod_item].is_gluttonfree.toString() == "0" && result_item[prod_item].is_vegetarian.toString() == "0" && result_item[prod_item].is_chef.toString() == "0")
+						{
+							prod_display.push('<li><a id="'+result_item[prod_item].ProductUUID.toString()+'" class="open-popup-link" href="#popup-product"><img border:1px solid #694306; width="120px" height="120px"  src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/><div class="icon" style="height:43px">&nbsp;</div><h2>'+result_item[prod_item].product_name.toString()+'</h2><p class="price">'+numberWithCommas(parseInt(result_item[prod_item].price.toString())/1000)+'</p> </a></li>');										
+						}
+						else
+						{
+							
+							prod_display.push('<li><a id="'+result_item[prod_item].ProductUUID.toString()+'" class="open-popup-link" href="#popup-product"><img border:1px solid #694306; width="120px" height="120px"  src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/>');	
+							prod_display.push('<div class="icon">')
+							
+							if(result_item[prod_item].is_gluttonfree.toString() == "1")
+							{
+								prod_display.push('<img src="images/glutenfree35.png"/>');
+							}
+							
+							
+							if(result_item[prod_item].is_vegetarian.toString() == "1")
+							{
+								prod_display.push('<img src="images/vegan1.png"/>');
+							}
+							
+							if(result_item[prod_item].is_chef.toString() == "1")
+							{
+								prod_display.push('<img src="images/chef_recom.png" /> ');
+							}
+							
+							
+							prod_display.push('</div><h2>'+result_item[prod_item].product_name.toString()+'</h2><p class="price">'+numberWithCommas(parseInt(result_item[prod_item].price.toString())/1000)+'</p></a></li>')
+						}
+						popup_product.push('<div id="popup-product'+result_item[prod_item].ProductUUID.toString()+'" class="popup-product"><div class="popup-product-img"><img src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/><h1>'+result_item[prod_item].product_name.toString()+'</h1></div><p class="popup-product-description">'+result_item[prod_item].description.toString()+'</p><div class="popup-product-option">QUANTITY &nbsp; <input id="down"  type="button" class="minus" /> <input id="quantity" type="text" value="1" min="0" /> <input id="up"  type="button" class="plus" /> <input type="submit" value="ORDER" /></div></div>');
+						
+					}
+					else if(x != 1)
+					{
+						if(result_item[prod_item].is_gluttonfree.toString() == "0" && result_item[prod_item].is_vegetarian.toString() == "0" && result_item[prod_item].is_chef.toString() == "0")
+						{
+							prod_display.push('<li><a id="'+result_item[prod_item].ProductUUID.toString()+'" class="open-popup-link" href="#popup-product"><img border:1px solid #694306; width="120px" height="120px"  src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/><div class="icon" style="height:43px">&nbsp;</div><h2>'+result_item[prod_item].product_name.toString()+'</h2><p class="price">'+numberWithCommas(parseInt(result_item[prod_item].price.toString())/1000)+'</p> </a></li>');										
+						}
+						else
+						{
+							
+							prod_display.push('<li><a id="'+result_item[prod_item].ProductUUID.toString()+'" class="open-popup-link" href="#popup-product"><img border:1px solid #694306; width="120px" height="120px"  src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/>');	
+							prod_display.push('<div class="icon">')
+							
+							if(result_item[prod_item].is_gluttonfree.toString() == "1")
+							{
+								prod_display.push('<img src="images/glutenfree35.png"/>');
+							}
+							
+							
+							if(result_item[prod_item].is_vegetarian.toString() == "1")
+							{
+								prod_display.push('<img src="images/vegan1.png"/>');
+							}
+							
+							if(result_item[prod_item].is_chef.toString() == "1")
+							{
+								prod_display.push('<img src="images/chef_recom.png" /> ');
+							}
+							
+							
+							prod_display.push('</div><h2>'+result_item[prod_item].product_name.toString()+'</h2><p class="price">'+numberWithCommas(parseInt(result_item[prod_item].price.toString())/1000)+'</p></a></li>')
+						}
+					}								
+				}
+				
+				if(result_item != 0)
+				{
+					prod_display.push('</ul>');
+					document.getElementById("prod_item_display").innerHTML = prod_display.join('');
+				}
+				else if(result_item == 0)
+				{
+					document.getElementById("prod_item_display").innerHTML = 'Not Available Menu at the momment';
+				}
+				prod_display.length = 0;
+			}
+			})
+		}
+		else if( SelectedParentUUID =='fac3e581-e795-4aed-bfe6-71d854e997d4')
+		{
+			$.ajax
+			({
+				type: "POST",
+				url : "http://tapas.ifabula.com/tapas_controller/display_child_category/"+SelectedCategoryUUID,
+				data : "CategoryUUID="+SelectedCategoryUUID,
+				//contentType: "application/json;charset=utf-8",
+				dataType: "json",
+				success: function(result_item)
+				{
+					for (var prod_item in result_item)
+					{
+						x = x+1;
+						if(x == 1)
+						{			
+							prod_display.push('<h1>'+child_default_name+'</h1>');
+							prod_display.push('<ul>');
+							//document.getElementById("prod_item").innerHTML = prod_display.join('');
+							prod_display.push('<li><a id="'+result_item[prod_item].CategoryUUID.toString()+'" class="open-popup-category-link" href="#popup-product"><img border:1px solid #694306; width="120px" height="120px"  src="http://tapas.ifabula.com/'+result_item[prod_item].image.toString()+'"/><h2>'+result_item[prod_item].category_name.toString()+'</h2></a></li>');																			
+								
+						}
+						else if(x != 1)
+						{
+							prod_display.push('<li><a id="'+result_item[prod_item].CategoryUUID.toString()+'" class="open-popup-category-link" href="#popup-product"><img border:1px solid #694306; width="120px" height="120px"  src="http://tapas.ifabula.com/'+result_item[prod_item].image.toString()+'"/><h2>'+result_item[prod_item].category_name.toString()+'</h2></a></li>');																			
+							
+							
+						}
+						
+					}
+					prod_display.push('</ul>');
+					document.getElementById("prod_item_display").innerHTML = prod_display.join('');
+					prod_display.length = 0;
+				}
+			})
+		}
+	}
+	
+	function reload_child_category(SelectedCategoryUUID)
+	{
+		prod_display.length = 0;	
+		category_name.length = 0;
+		child_category_name.length = 0;
+		
+		bev_menu.length =0;
+		bev_price.length =0;
+		bev_id.length = 0;
+		bev_name.length = 0;
+		
+		var x = 0;
+		var ProductCat = '';
+		document.getElementById("prod_item_display").innerHTML = '';
+		$.ajax({
+			type: "POST",
+			url : "http://tapas.ifabula.com/tapas_controller/display_parent_category",
+			//contentType: "application/json;charset=utf-8",
+			dataType: "json",
+			success: function(result)
+			{
+				
+				for (var item in result)
+				{
+					z = z+1;
+					//alert(SelectedCategoryUUID);
+					if(SelectedCategoryUUID == result[item].CategoryUUID.toString() )
+					{
+						category_name.push('<li id ="'+result[item].CategoryUUID.toString()+'"  class="active"><a href="#?id='+result[item].CategoryUUID.toString()+'" onclick="reload_child_category(\''+result[item].CategoryUUID.toString()+'\');return false;" >'+result[item].category_name.toString()+'</a></li>');
+					}
+					else 
+					{
+						category_name.push('<li id ="'+result[item].CategoryUUID.toString()+'" ><a href="#?id='+result[item].CategoryUUID.toString()+'" onclick="reload_child_category(\''+result[item].CategoryUUID.toString()+'\');" >'+result[item].category_name.toString()+'</a></li>');					
+					}		
+					document.getElementById("tab").innerHTML = category_name.join('');
+				}
+			},
+			error: function(data, errorThrown)
+			{
+				alert('request failed :'+errorThrown);
+			}				
+		})
+		
+		
+		$.ajax({
+		type: "POST",
+		url : "http://tapas.ifabula.com/tapas_controller/display_child_category/"+SelectedCategoryUUID,
+		data : "CategoryUUID="+SelectedCategoryUUID,
+		//contentType: "application/json;charset=utf-8",
+		dataType: "json",
+		success: function(result_child)
+		{
+			var i = 0;
+			var child_default_name = '';
+			for (var item_child in result_child)
+			{
+				i = i+1;
+				if(i != 1)
+				{	
+					child_category_name.push('<li><a href="#'+result_child[item_child].CategoryUUID.toString()+'" onclick="reload_child_item(\''+result_child[item_child].CategoryUUID.toString()+'\',\''+result_child[item_child].ParentUUID.toString()+'\');">'+result_child[item_child].category_name.toString()+'</a></li>');
+					child_category_id.push(result_child[item_child].CategoryUUID.toString());
+					child_name.push(result_child[item_child].category_name.toString());
+					
+				}
+				else if(i == 1)
+				{
+					child_default_name = result_child[item_child].category_name.toString();
+					child_category_name.push('<li class="active"><a href="#'+result_child[item_child].CategoryUUID.toString()+'" onclick="reload_child_item(\''+result_child[item_child].CategoryUUID.toString()+'\',\''+result_child[item_child].ParentUUID.toString()+'\');">'+result_child[item_child].category_name.toString()+'</a></li>');
+					child_category_id.push(result_child[item_child].CategoryUUID.toString());
+					child_name.push(result_child[item_child].category_name.toString());
+					ProductCat = result_child[item_child].CategoryUUID.toString();
+				}
+				document.getElementById("tab_child").innerHTML = child_category_name.join('');
+				
+			}
+			
+			if(SelectedCategoryUUID != 'fac3e581-e795-4aed-bfe6-71d854e997d4')
+			{
+				
+				$.ajax
+				({
+					type: "POST",
+					url : "http://tapas.ifabula.com/tapas_controller/display_child_item/"+ProductCat,
+					data : "CategoryUUID="+ProductCat,
+					//contentType: "application/json;charset=utf-8",
+					dataType: "json",
+					success: function(result_item)
+					{
+						
+						for (var prod_item in result_item)
+						{
+							x = x+1;
+							if(x == 1)
+							{
+								//alert(i);
+								//prod_display.push('<div id='+result_child[item_child].CategoryUUID.toString()+'>');
+								prod_display.push('<h1>'+result_item[prod_item].category_name.toString()+'</h1>');
+								prod_display.push('<ul>');
+								//document.getElementById("prod_item").innerHTML = prod_display.join('');
+								if(result_item[prod_item].is_gluttonfree.toString() == "0" && result_item[prod_item].is_vegetarian.toString() == "0" && result_item[prod_item].is_chef.toString() == "0")
+								{
+									prod_display.push('<li><a id="'+result_item[prod_item].ProductUUID.toString()+'" class="open-popup-link" href="#popup-product"><img border:1px solid #694306; width="120px" height="120px"  src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/><div class="icon" style="height:43px">&nbsp;</div><h2>'+result_item[prod_item].product_name.toString()+'</h2><p class="price">'+numberWithCommas(parseInt(result_item[prod_item].price.toString())/1000)+'</p> </a></li>');										
+								}
+								else
+								{
+									
+									prod_display.push('<li><a id="'+result_item[prod_item].ProductUUID.toString()+'" class="open-popup-link" href="#popup-product"><img border:1px solid #694306; width="120px" height="120px"  src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/>');	
+									prod_display.push('<div class="icon">')
+									
+									if(result_item[prod_item].is_gluttonfree.toString() == "1")
+									{
+										prod_display.push('<img src="images/glutenfree35.png"/>');
+									}
+									
+									
+									if(result_item[prod_item].is_vegetarian.toString() == "1")
+									{
+										prod_display.push('<img src="images/vegan1.png"/>');
+									}
+									
+									if(result_item[prod_item].is_chef.toString() == "1")
+									{
+										prod_display.push('<img src="images/chef_recom.png" /> ');
+									}
+									
+									
+									prod_display.push('</div><h2>'+result_item[prod_item].product_name.toString()+'</h2><p class="price">'+numberWithCommas(parseInt(result_item[prod_item].price.toString())/1000)+'</p></a></li>')
+								}
+								popup_product.push('<div id="popup-product'+result_item[prod_item].ProductUUID.toString()+'" class="popup-product"><div class="popup-product-img"><img src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/><h1>'+result_item[prod_item].product_name.toString()+'</h1></div><p class="popup-product-description">'+result_item[prod_item].description.toString()+'</p><div class="popup-product-option">QUANTITY &nbsp; <input id="down"  type="button" class="minus" /> <input id="quantity" type="text" value="1" min="0" /> <input id="up"  type="button" class="plus" /> <input type="submit" value="ORDER" /></div></div>');
+								
+							}
+							else if(x != 1)
+							{
+								if(result_item[prod_item].is_gluttonfree.toString() == "0" && result_item[prod_item].is_vegetarian.toString() == "0" && result_item[prod_item].is_chef.toString() == "0")
+								{
+									prod_display.push('<li><a id="'+result_item[prod_item].ProductUUID.toString()+'" class="open-popup-link" href="#popup-product"><img border:1px solid #694306; width="120px" height="120px"  src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/><div class="icon" style="height:43px">&nbsp;</div><h2>'+result_item[prod_item].product_name.toString()+'</h2><p class="price">'+numberWithCommas(parseInt(result_item[prod_item].price.toString())/1000)+'</p> </a></li>');										
+								}
+								else
+								{
+									
+									prod_display.push('<li><a id="'+result_item[prod_item].ProductUUID.toString()+'" class="open-popup-link" href="#popup-product"><img border:1px solid #694306; width="120px" height="120px"  src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/>');	
+									prod_display.push('<div class="icon">')
+									
+									if(result_item[prod_item].is_gluttonfree.toString() == "1")
+									{
+										prod_display.push('<img src="images/glutenfree35.png"/>');
+									}
+									
+									
+									if(result_item[prod_item].is_vegetarian.toString() == "1")
+									{
+										prod_display.push('<img src="images/vegan1.png"/>');
+									}
+									
+									if(result_item[prod_item].is_chef.toString() == "1")
+									{
+										prod_display.push('<img src="images/chef_recom.png" /> ');
+									}
+									
+									
+									prod_display.push('</div><h2>'+result_item[prod_item].product_name.toString()+'</h2><p class="price">'+numberWithCommas(parseInt(result_item[prod_item].price.toString())/1000)+'</p></a></li>')
+								}
+							}						
+						}
+						prod_display.push('</ul>');
+						document.getElementById("prod_item_display").innerHTML = prod_display.join('');
+						prod_display.length = 0;
+					}
+				})
+			}
+			else if( SelectedCategoryUUID =='fac3e581-e795-4aed-bfe6-71d854e997d4')
+			{
+				$.ajax
+				({
+					type: "POST",
+					url : "http://tapas.ifabula.com/tapas_controller/display_child_category/"+ProductCat,
+					data : "CategoryUUID="+ProductCat,
+					//contentType: "application/json;charset=utf-8",
+					dataType: "json",
+					success: function(result_item)
+					{
+						for (var prod_item in result_item)
+						{
+							x = x+1;
+							if(x == 1)
+							{			
+								prod_display.push('<h1>'+child_default_name+'</h1>');
+								prod_display.push('<ul>');
+								//document.getElementById("prod_item").innerHTML = prod_display.join('');
+								prod_display.push('<li><a id="'+result_item[prod_item].CategoryUUID.toString()+'" class="open-popup-category-link" href="#popup-product"><img border:1px solid #694306; width="120px" height="120px"  src="http://tapas.ifabula.com/'+result_item[prod_item].image.toString()+'"/><h2>'+result_item[prod_item].category_name.toString()+'</h2></a></li>');																			
+									
+							}
+							else if(x != 1)
+							{
+								prod_display.push('<li><a id="'+result_item[prod_item].CategoryUUID.toString()+'" class="open-popup-category-link" href="#popup-product"><img border:1px solid #694306; width="120px" height="120px"  src="http://tapas.ifabula.com/'+result_item[prod_item].image.toString()+'"/><h2>'+result_item[prod_item].category_name.toString()+'</h2></a></li>');																			
+								
+								
+							}
+							
+						}
+						prod_display.push('</ul>');
+						document.getElementById("prod_item_display").innerHTML = prod_display.join('');
+						prod_display.length = 0;
+					}
+				})
+			}
+				
+			
+			
+		},
+		 error: function(data, errorThrown)
+		  {
+			  alert('request failed :'+errorThrown);
+		  }				
+		})
+			
+			
+			
+			
+			prod_display.length = 0;	
+			category_name.length = 0;
+			child_category_name.length = 0;
+		}
+		
+	
+
+</script>
+<div class="right-side">
+	<div class="logo"></div>
+	<div class="right-content">
+		<div class="right-content-row profile">
+			<h6>Welcome,</h6><p><b id='customer_email' name ='customer_email'></b></p>
+			<!--You are being served by <br><br> <b id ='emp_name' name='emp_name'></b>-->
+		</div>
+		<div class="right-content-row order-list">
+			<p class="title">YOUR ORDER LIST</p>
+			<div class="order-list-content scroll-pane" id='list_order'>
+				<ul id ='order_list'>
+					<li>
+						<h4><font color="black">.</font></h4>
+						<p><span></span></p>
+						<div class="price"></div>
+					</li>
+					<li>
+						<h4><font color="black">.</font></h4>
+						<p><span></span></p>
+						<div class="price"></div>
+					</li><li>
+						<h4><font color="black">.</font></h4>
+						<p><span></span></p>
+						<div class="price"></div>
+					</li><li>
+						<h4><font color="black">.</font></h4>
+						<p><span></span></p>
+						<div class="price"></div>
+					</li><li>
+						<h4><font color="black">.</font></h4>
+						<p><span></span></p>
+						<div class="price"></div>
+					</li><li>
+						<h4><font color="black">.</font></h4>
+						<p><span></span></p>
+						<div class="price"></div>
+					</li><li>
+						<h4><font color="black">.</font></h4>
+						<p><span></span></p>
+						<div class="price"></div>
+					</li><li>
+						<h4><font color="black">.</font></h4>
+						<p><span></span></p>
+						<div class="price"></div>
+					</li><li>
+						<h4><font color="black">.</font></h4>
+						<p><span></span></p>
+						<div class="price"></div>
+					</li><li>
+						<h4><font color="black">.</font></h4>
+						<p><span></span></p>
+						<div class="price"></div>
+					</li><li>
+						<h4><font color="black">.</font></h4>
+						<p><span></span></p>
+						<div class="price"></div>
+					</li><li>
+						<h4><font color="black">.</font></h4>
+						<p><span></span></p>
+						<div class="price"></div>
+					</li><li>
+						<h4><font color="black">.</font></h4>
+						<p><span></span></p>
+						<div class="price"></div>
+					</li><li>
+						<h4><font color="black">.</font></h4>
+						<p><span></span></p>
+						<div class="price"></div>
+					</li><li>
+						<h4><font color="black">.</font></h4>
+						<p><span></span></p>
+						<div class="price"></div>
+					</li><li>
+						<h4><font color="black">.</font></h4>
+						<p><span></span></p>
+						<div class="price"></div>
+					</li><li>
+						<h4><font color="black">.</font></h4>
+						<p><span></span></p>
+						<div class="price"></div>
+					</li><li>
+						<h4><font color="black">.</font></h4>
+						<p><span></span></p>
+						<div class="price"></div>
+					</li><li>
+						<h4><font color="black">.</font></h4>
+						<p><span></span></p>
+						<div class="price"></div>
+					</li><li>
+						<h4><font color="black">.</font></h4>
+						<p><span></span></p>
+						<div class="price"></div>
+					</li><li>
+						<h4><font color="black">.</font></h4>
+						<p><span></span></p>
+						<div class="price"></div>
+					</li><li>
+						<h4><font color="black">.</font></h4>
+						<p><span></span></p>
+						<div class="price"></div>
+					</li><li>
+						<h4><font color="black">.</font></h4>
+						<p><span></span></p>
+						<div class="price"></div>
+					</li><li>
+						<h4><font color="black">.</font></h4>
+						<p><span></span></p>
+						<div class="price"></div>
+					</li><li>
+						<h4><font color="black">.</font></h4>
+						<p><span></span></p>
+						<div class="price"></div>
+					</li><li>
+						<h4><font color="black">.</font></h4>
+						<p><span></span></p>
+						<div class="price"></div>
+					</li><li>
+						<h4><font color="black">.</font></h4>
+						<p><span></span></p>
+						<div class="price"></div>
+					</li><li>
+						<h4><font color="black">.</font></h4>
+						<p><span></span></p>
+						<div class="price"></div>
+					</li><li>
+						<h4><font color="black">.</font></h4>
+						<p><span></span></p>
+						<div class="price"></div>
+					</li><li>
+						<h4><font color="black">.</font></h4>
+						<p><span></span></p>
+						<div class="price"></div>
+					</li><li>
+						<h4><font color="black">.</font></h4>
+						<p><span></span></p>
+						<div class="price"></div>
+					</li>
+
+					
+				</ul>
+			</div>
+		</div>
+	<div class="right-content-row order-total tombol-button">
+			TOTAL <span id='total_order'>0</span>
+			<br>
+						&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <input style="" type="submit" value="Confirm Order" onClick="confirm_order()" />
+	
+		</div>
+		<div class="right-content-row poweredby">
+			<p>POWERED BY <span class="logo-ifabula" onClick="document.location='http://ifabula.com'" style="cursor:pointer"></span></p>
+		</div>
+	</div>
+</div>
+
+<div class="left-side">
+	<div class="top-nav">
+	 	<ul id='tab' name='tab'>
+			
+		</ul>
+	</div>
+	
+	<div class="sub-nav">
+		<ul id='tab_child' name='tab_child'>
+
+		</ul>
+	</div>
+	<div class="left-side-content">
+		<div class="catalog-content">
+			<b id='prod_item'></b>
+			<div id='prod_item_display'>
+			
+			</div>	
+			<!--<h1>Raciones</h1> -->
+
+			
+			
+		</div>
+		<p class="footnote" style="display:none;">All prices in thousand Indonesian Rupiah. Prices can be change in anytime without notice. Tax & Service charges are not included!</p>
+	</div>
+	
+</div>
+<p id='popup_item' name='popup_item'></b>
+<div id="popup-product" class="popup-product mfp-hide">
+	<div class="popup-product-img">
+		<img src="images/img-product.jpg" />
+		<h1>Bread with Tomato Sauce & Iberico Ham</h1>
+	</div>
+	<p class="popup-product-description">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.</p>
+	<div class="popup-product-option">
+		QUANTITY &nbsp; <input id="down" onClick="setQuantity('down');" type="button" class="minus" /> <input id="quantity" type="text" value="1" min="0" /> <input id="up" onClick="setQuantity('up');" type="button" class="plus" /> <input type="submit" value="ORDER" />
+	</div>
+</div>	
+
+<!-- jQuery 1.7.2+ or Zepto.js 1.0+ -->
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 	
+<!--<script src="http://code.jquery.com/jquery-1.9.0.js"></script> -->
+<!-- Magnific Popup core JS file -->
+<script src="js/catalog2.js"></script>
+<script src="js/jquery.magnific-popup.js"></script>
+<script src="js/jquery.jscrollpane.min.js"></script>
+<script src="js/jquery.mousewheel.js"></script>
+<script src="js/default.js"></script>
+<script type="text/javascript" src="js/jquery.smartCart-2.0.js"></script>
+
+</body>
+</html>
