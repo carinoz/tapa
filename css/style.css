@@ -131,14 +131,14 @@ input[type=button].minus{background: url('../images/bt-minus.png') no-repeat; wi
 .sub-nav ul li.active, .sub-nav ul li:hover{background:#533310;}
 .sub-nav ul li.active a, .sub-nav ul li:hover a{color:#d37d23; text-decoration: none;}
 
-.catalog-content{display: block; position: relative; padding-bottom:40px; text-align: center;}
-.catalog-content h1{font-family: 'Merriweather', serif; text-align: center; margin:20px 0; text-transform: uppercase; font-size:24px;}
-.catalog-content ul li{float:left; margin:10px; width:150px; text-align: center;}
-.catalog-content ul li a{text-decoration:none;}
-.catalog-content ul li img{padding:3px; margin: 0 auto; text-align: center;}
-.catalog-content ul li img icon{width:35px; height:35px; text-align: center;}
-.catalog-content ul li h2{font-family: 'Merriweather', serif; font-size:14px; font-style: italic; color:#231600; height: 40px; margin:10px 0; line-height: 18px; text-align: center;}
-.price{font-size:14px; color:#231600; font-weight: bold;}
+	.catalog-content{display: block; position: relative; padding-bottom:40px; text-align: center;}
+	.catalog-content h1{font-family: 'Merriweather', serif; text-align: center; margin:20px 0; text-transform: uppercase; font-size:24px;}
+	.catalog-content ul li{float:left; margin-top:20px; margin-bottom:20px; margin-left:15px; margin-right:15px; width:130px; text-align: center;}
+	.catalog-content ul li img{padding:3px; margin: 0 auto; text-align: center;}
+	.catalog-content ul li img icon{width:35px; height:35px; text-align: center;}
+	.catalog-content ul li h2{font-family: 'Merriweather', serif; font-size:14px; font-style: italic; color:#231600; height: 40px; margin:10px 0; line-height: 18px; text-align: center;}
+
+.price{font-size:14px; color:#231600; font-weight: bold; padding-top:20px;}
 
 .promotion-content{ text-align: center;}
 .promotion-content img{padding-bottom:30px;}
