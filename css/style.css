@@ -131,14 +131,14 @@ input[type=button].minus{background: url('../images/bt-minus.png') no-repeat; wi
 .sub-nav ul li.active, .sub-nav ul li:hover{background:#533310;}
 .sub-nav ul li.active a, .sub-nav ul li:hover a{color:#d37d23; text-decoration: none;}
 
-	.catalog-content{display: block; position: relative; padding-bottom:40px; text-align: center;}
-	.catalog-content h1{font-family: 'Merriweather', serif; text-align: center; margin:20px 0; text-transform: uppercase; font-size:24px;}
-	.catalog-content ul li{float:left; margin-top:20px; margin-bottom:20px; margin-left:15px; margin-right:15px; width:130px; text-align: center;}
-	.catalog-content ul li img{padding:3px; margin: 0 auto; text-align: center;}
-	.catalog-content ul li img icon{width:35px; height:35px; text-align: center;}
-	.catalog-content ul li h2{font-family: 'Merriweather', serif; font-size:14px; font-style: italic; color:#231600; height: 40px; margin:10px 0; line-height: 18px; text-align: center;}
+.catalog-content{display: block; position: relative; padding-bottom:40px; text-align: center; max-width:1300px}
+.catalog-content h1{font-family: 'Merriweather', serif; text-align: center; margin:20px 0; text-transform: uppercase; font-size:24px;}
+.catalog-content ul li{float:left; margin-top:20px; margin-bottom:20px; width:250px; padding-left:10px; text-align: center;}
+.catalog-content ul li img{padding:3px; margin: 0 auto; text-align: center;}
+.catalog-content ul li img icon{width:35px; height:35px; text-align: center;}
+.catalog-content ul li h2{font-family: 'Merriweather', serif; font-size:14px; font-style: italic; color:#231600; height: 40px; margin:10px 0; padding-bottom:10px; line-height: 18px; text-align: center;}
 
-.price{font-size:14px; color:#231600; font-weight: bold; padding-top:20px;}
+.price{font-size:14px; color:#231600; font-weight: bold; padding-top:10px; padding-bottom:10px;}
 
 .promotion-content{ text-align: center;}
 .promotion-content img{padding-bottom:30px;}
@@ -195,6 +195,27 @@ input[type=button].minus{background: url('../images/bt-minus.png') no-repeat; wi
     appearance:none;
     cursor:pointer;
                                                 width:150px;
+                                                height:30px;
+}
+.tombol-button2 select {
+    padding:3px;
+    margin: 0;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    border-radius:4px;
+    -webkit-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+    -moz-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+    box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+    background: #f8f8f8;
+    color:#888;
+    border:none;
+    outline:none;
+    display: inline-block;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    appearance:none;
+    cursor:pointer;
+                                                width:50px;
                                                 height:30px;
 }
 

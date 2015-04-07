@@ -600,7 +600,7 @@ $(document).on('click', '.open-popup-category-link',function()
 				 category_name = result_item[prod_item].category_name.toString();
 				 if(result_item[prod_item].CategoryUUID.toString() == 'de91bcef-d3fc-44a1-a314-fe0bc63f7b6e' || result_item[prod_item].CategoryUUID.toString() ==  '116d3007-5c6b-4bf5-96b9-7a8eb423f81d')
 				 {
-					 cat_child.push('<table border="1px" width="100%" class=""><tr><td align="left" width="45%" ><div class="popup-product-option tombol-button">'+result_item[prod_item].product_name.toString()+'</td><td width="55%">'+parseInt(result_item[prod_item].price.toString())/1000+'&nbsp; &nbsp; &nbsp; &nbsp;<select name="menu_type" id="menu_type"><option  value="Hot">Hot</option><option value="Cold">Cold</option></select>&nbsp; &nbsp;<input id="down" onClick="setQuantityBevDown(\''+seq+'\')" type="button" class="minus"  /> &nbsp; &nbsp; &nbsp; &nbsp;<input id="qty'+seq+'" size="1" type="text" value="0" readonly min="0" /> &nbsp; &nbsp;<input id="up"  type="button" class="plus" onclick="setQuantityBevUp(\''+seq+'\')" /></div></td></tr></table><br><br>');
+					 cat_child.push('<table border="1px" width="100%" class=""><tr><td align="left" width="45%" ><div class="popup-product-option tombol-button">'+result_item[prod_item].product_name.toString()+'</td><td width="55%" class="tombol-button2">'+parseInt(result_item[prod_item].price.toString())/1000+'&nbsp; &nbsp; &nbsp; &nbsp;<select name="menu_type" id="menu_type"><option  value="Hot">Hot</option><option value="Cold">Cold</option></select> &nbsp; &nbsp; &nbsp; &nbsp;<input id="down" onClick="setQuantityBevDown(\''+seq+'\')" type="button" class="minus"  /> &nbsp; &nbsp; &nbsp; &nbsp;<input id="qty'+seq+'" size="1" type="text" value="0" readonly min="0" /> &nbsp; &nbsp; &nbsp; &nbsp;<input id="up"  type="button" class="plus" onclick="setQuantityBevUp(\''+seq+'\')" /></div></td></tr></table><br><br>');
 				 }
 				 else
 				 {
@@ -762,7 +762,7 @@ function submit_order()
 						//document.getElementById("prod_item").innerHTML = prod_display.join('');
 						if(result_item[prod_item].is_gluttonfree.toString() == "0" && result_item[prod_item].is_vegetarian.toString() == "0" && result_item[prod_item].is_chef.toString() == "0")
 						{
-							prod_display.push('<li><a id="'+result_item[prod_item].ProductUUID.toString()+'" class="open-popup-link" href="#popup-product"><img border:1px solid #694306; width="120px" height="120px"  src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/><div class="icon" style="height:43px">&nbsp;</div><h2>'+result_item[prod_item].product_name.toString()+'</h2><p class="price">'+numberWithCommas(parseInt(result_item[prod_item].price.toString())/1000)+'</p> </a></li>');										
+							prod_display.push('<li><a id="'+result_item[prod_item].ProductUUID.toString()+'" class="open-popup-link" href="#popup-product"><img border:1px solid #694306; width="120px" height="120px"  src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/><div class="icon" style="height:43px">&nbsp;</div><p class="price">'+numberWithCommas(parseInt(result_item[prod_item].price.toString())/1000)+'</p><h2>'+result_item[prod_item].product_name.toString()+'</h2></a></li>');										
 						}
 						else
 						{
@@ -787,7 +787,7 @@ function submit_order()
 							}
 							
 							
-							prod_display.push('</div><h2>'+result_item[prod_item].product_name.toString()+'</h2><p class="price">'+numberWithCommas(parseInt(result_item[prod_item].price.toString())/1000)+'</p></a></li>')
+							prod_display.push('</div><p class="price">'+numberWithCommas(parseInt(result_item[prod_item].price.toString())/1000)+'</p><h2>'+result_item[prod_item].product_name.toString()+'</h2></a></li>')
 						}
 						popup_product.push('<div id="popup-product'+result_item[prod_item].ProductUUID.toString()+'" class="popup-product"><div class="popup-product-img"><img src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/><h1>'+result_item[prod_item].product_name.toString()+'</h1></div><p class="popup-product-description">'+result_item[prod_item].description.toString()+'</p><div class="popup-product-option">QUANTITY &nbsp; <input id="down"  type="button" class="minus" /> <input id="quantity" type="text" value="1" min="0" /> <input id="up"  type="button" class="plus" /> <input type="submit" value="ORDER" /></div></div>');
 						
@@ -796,7 +796,7 @@ function submit_order()
 					{
 						if(result_item[prod_item].is_gluttonfree.toString() == "0" && result_item[prod_item].is_vegetarian.toString() == "0" && result_item[prod_item].is_chef.toString() == "0")
 						{
-							prod_display.push('<li><a id="'+result_item[prod_item].ProductUUID.toString()+'" class="open-popup-link" href="#popup-product"><img border:1px solid #694306; width="120px" height="120px"  src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/><div class="icon" style="height:43px">&nbsp;</div><h2>'+result_item[prod_item].product_name.toString()+'</h2><p class="price">'+numberWithCommas(parseInt(result_item[prod_item].price.toString())/1000)+'</p> </a></li>');										
+							prod_display.push('<li><a id="'+result_item[prod_item].ProductUUID.toString()+'" class="open-popup-link" href="#popup-product"><img border:1px solid #694306; width="120px" height="120px"  src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/><div class="icon" style="height:43px">&nbsp;</div><p class="price">'+numberWithCommas(parseInt(result_item[prod_item].price.toString())/1000)+'</p><h2>'+result_item[prod_item].product_name.toString()+'</h2></a></li>');										
 						}
 						else
 						{
@@ -821,7 +821,7 @@ function submit_order()
 							}
 							
 							
-							prod_display.push('</div><h2>'+result_item[prod_item].product_name.toString()+'</h2><p class="price">'+numberWithCommas(parseInt(result_item[prod_item].price.toString())/1000)+'</p></a></li>')
+							prod_display.push('</div><p class="price">'+numberWithCommas(parseInt(result_item[prod_item].price.toString())/1000)+'</p><h2>'+result_item[prod_item].product_name.toString()+'</h2></a></li>')
 						}
 					}								
 				}
