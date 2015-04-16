@@ -147,14 +147,14 @@ input[type=button].minus{background: url('../images/bt-minus.png') no-repeat; wi
 
 .popup-product {
   position: relative;
-  padding: 20px;
+  padding: 10px;
   width: auto;
-  max-width: 500px;
-  margin: 20px auto;
+  max-width: 510px;
+  margin: 5px auto;
   color:#fff;
   text-align: center;
 }
-.popup-product-img img{max-height:420px; padding:3px; border:2px solid #fff;}
+.popup-product-img img{max-height:510px; padding:3px; border:2px solid #fff;}
 .popup-product-img h1{font-family: "Merriweather", serif; font-size:14px; font-style: italic; text-align: center; margin:10px 0;}
 .popup-product-description{font-size:12px; line-height:18px;}
 .popup-product-option input[type=text]{width:30px; text-align: center; margin:0 10px;}
