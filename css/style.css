@@ -82,9 +82,9 @@ a:hover{text-decoration:underline;}
 body{font-family: 'Open sans', Arial, Helvetica, sans-serif; background:#643d13; background:url('../images/bg-body2.jpg'); background-repeat:no-repeat;}
 body.page-login{background:url('../images/bg-body.png') !important;}
 
-.left-side{display: block; position: inherit; padding-right:210px;}
+.left-side{display: block; position: relative; padding-right:210px;}
 .left-side-content{padding-top:120px; position: relative; display: block; padding-bottom:40px;}
-.right-side{background:#020202; color:#fff; width:210px; height: 100%;; display: block; position:fixed; right:0; z-index: 10; box-shadow:0 -10px 10px rgba(0,0,0,.7);}
+.right-side{background:#020202; color:#fff; width:210px; height: 700px;; display: block; position:absolute; right:0; z-index: 10; box-shadow:0 -10px 10px rgba(0,0,0,.7);}
 .logo{background:url('../images/logo-tapas.jpg') no-repeat; width:175px; height:175px; margin:10px auto;}
 .right-content-row{display: block; margin:20px 0;}
 .profile{text-align:center;}
