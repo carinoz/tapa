@@ -667,9 +667,10 @@ function submit_order()
 	var new_subtotal = parseInt(str_total.replace(",",""))*1000;
 	
 	var ppn = parseInt(new_subtotal) * 0.1;
-	var service_fee = parseInt(new_subtotal) * 0.05;
+	var service_fee = (parseInt(new_subtotal) + parseInt(ppn)) * 0.1;
 	//var new_subtotal = parseInt(total_order.replace(",","")) * 1000;
 	var grand_total = parseInt(new_subtotal) + parseInt(ppn) + parseInt(service_fee);
+
 	$.ajax
 	({
 		type: "POST",
