@@ -12,7 +12,7 @@
 			var datas = {
 				"username": username,
 				"password": password
-			};
+		};
 			
 			
 			
@@ -27,6 +27,7 @@
 					if(msg.password !='0')
 					{
 						alert(msg.name);
+						
 					}
 					else if(msg.password == '0')
 					{

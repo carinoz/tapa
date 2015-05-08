@@ -1,6 +1,8 @@
-$(document).ready(function(){
+	$(document).ready(function()
+	{
 		
 		var order_list =[],order_display=[];total_order = "",up = "up",down = "down";
+		
 
 		$('#test').magnificPopup({
 			type: "image",
@@ -12,55 +14,53 @@ $(document).ready(function(){
 		  midClick: true // Allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source in href.
 		});
 		
-		function setQuantityUp() 
-		{
-			var quantity = document.getElementById('qty');
-			var upordown = "up";
-			if (quantity.value > 1) {
-				if (upordown == 'up'){++document.getElementById('qty').value;}
-				else if (upordown == 'down'){--document.getElementById('qty').value;}
-			}
-			else if (quantity.value == 1) {
-				if (upordown == 'up'){++document.getElementById('qty').value;}
-			}
-			else{
-				document.getElementById('qty').value=1;
-			}
-		}
+	function setQuantityUp() 
+	{
+		var quantity = document.getElementById('qty');
+		var upordown = "up";
+		if (quantity.value > 1) {
+			if (upordown == 'up'){++document.getElementById('qty').value;}
+			else if (upordown == 'down'){--document.getElementById('qty').value;}}
+		else if (quantity.value == 1) {
+			if (upordown == 'up'){++document.getElementById('qty').value;}}
+		else
+			{document.getElementById('qty').value=1;}
+	}
 	
-		function setQuantityDown()
+	function setQuantityDown()
+	{
+		var quantity = document.getElementById('qty');
+		if (quantity.value > 1) 
 		{
-			var quantity = document.getElementById('qty');
-			if (quantity.value > 1) 
-			{
-				--document.getElementById('qty').value;
-			}
-			else if (quantity.value == 1) 
-			{
-				document.getElementById('qty').value=1;
-			}
+			--document.getElementById('qty').value;
 		}
+		else if (quantity.value == 1) 
+		{
+			document.getElementById('qty').value=1;
+		}
+	}
 	
 		
 		function setQuantity(upordown) 
-		{
-			var quantity = document.getElementById('qty');
+	{
+		var quantity = document.getElementById('qty');
 
-			if (quantity.value > 1) {
-				if (upordown == 'up'){++document.getElementById('qty').value;}
+		if (quantity.value > 1) {
+			if (upordown == 'up'){++document.getElementById('qty').value;}
 			else if (upordown == 'down'){--document.getElementById('qty').value;}}
-			else if (quantity.value == 1) {
-				if (upordown == 'up'){++document.getElementById('qty').value;}}
-			else{document.getElementById('qty').value=1;}
-		}
+		else if (quantity.value == 1) {
+			if (upordown == 'up'){++document.getElementById('qty').value;}}
+		else
+			{document.getElementById('qty').value=1;}
+	}
 	
 		
 		
-		function add_new_item(product_id)
-		{
-			var qty = $('#qty').val();
-			var menu_name = '';
-			order_list.push(product_id,qty);
+	function add_new_item(product_id)
+	{
+		var qty = $('#qty').val();
+		var menu_name = '';
+		order_list.push(product_id,qty);
 		$.ajax
 		({
 			type: "POST",
@@ -223,8 +223,8 @@ $(document).ready(function(){
 		});
 		
 		function numberWithCommas(x) {
-			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-		}
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 		
 
 
@@ -281,7 +281,7 @@ $(document).ready(function(){
 						else if(i == 1)
 						{
 							default_cat = result_child[item_child].CategoryUUID.toString();
-							child_category_name.push('<li class="	"><a href="#'+result_child[item_child].CategoryUUID.toString()+'" onclick="reload_child_item(\''+result_child[item_child].CategoryUUID.toString()+'\',\''+result_child[item_child].ParentUUID.toString()+'\');">'+result_child[item_child].category_name.toString()+'</a></li>');
+							child_category_name.push('<li class="active"><a href="#'+result_child[item_child].CategoryUUID.toString()+'" onclick="reload_child_item(\''+result_child[item_child].CategoryUUID.toString()+'\',\''+result_child[item_child].ParentUUID.toString()+'\');">'+result_child[item_child].category_name.toString()+'</a></li>');
 							child_category_id.push(result_child[item_child].CategoryUUID.toString());
 							child_name.push(result_child[item_child].category_name.toString());
 							
@@ -305,12 +305,12 @@ $(document).ready(function(){
 									//document.getElementById("prod_item").innerHTML = prod_display.join('');
 									if(result_item[prod_item].is_gluttonfree.toString() == "0" && result_item[prod_item].is_vegetarian.toString() == "0" && result_item[prod_item].is_chef.toString() == "0")
 									{
-										prod_display.push('<li><a id="'+result_item[prod_item].ProductUUID.toString()+'" class="open-popup-link" href="#popup-product"><img border:1px solid #694306; width="140px" height="140px"  src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/><div class="icon" style="height:43px">&nbsp;</div><p class="price">'+numberWithCommas(parseInt(result_item[prod_item].price.toString())/1000)+'</p><h2>'+result_item[prod_item].product_name.toString()+'</h2></a></li>');										
+										prod_display.push('<li><a id="'+result_item[prod_item].ProductUUID.toString()+'" class="open-popup-link" href="#popup-product"><img border:1px solid #694306; width="170px" height="170px" src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/><div class="icon" style="height:43px">&nbsp;</div><p class="price">'+numberWithCommas(parseInt(result_item[prod_item].price.toString())/1000)+'</p><h2>'+result_item[prod_item].product_name.toString()+'</h2></a></li>');										
 									}
 									else
 									{
 										
-										prod_display.push('<li><a id="'+result_item[prod_item].ProductUUID.toString()+'" class="open-popup-link" href="#popup-product"><img border:1px solid #694306; width="140px" height="140px"  src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/>');	
+										prod_display.push('<li><a id="'+result_item[prod_item].ProductUUID.toString()+'" class="open-popup-link" href="#popup-product"><img border:1px solid #694306; width="170px" height="170px" src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/>');	
 										prod_display.push('<div class="icon">')
 										
 										if(result_item[prod_item].is_gluttonfree.toString() == "1")
@@ -339,12 +339,12 @@ $(document).ready(function(){
 								{
 									if(result_item[prod_item].is_gluttonfree.toString() == "0" && result_item[prod_item].is_vegetarian.toString() == "0" && result_item[prod_item].is_chef.toString() == "0")
 									{
-										prod_display.push('<li><a id="'+result_item[prod_item].ProductUUID.toString()+'" class="open-popup-link" href="#popup-product"><img border:1px solid #694306; width="140px" height="140px"  src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/><div class="icon" style="height:43px">&nbsp;</div><p class="price">'+numberWithCommas(parseInt(result_item[prod_item].price.toString())/1000)+'</p><h2>'+result_item[prod_item].product_name.toString()+'</h2></a></li>');										
+										prod_display.push('<li><a id="'+result_item[prod_item].ProductUUID.toString()+'" class="open-popup-link" href="#popup-product"><img border:1px solid #694306; width="170px" height="170px" src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/><div class="icon" style="height:43px">&nbsp;</div><p class="price">'+numberWithCommas(parseInt(result_item[prod_item].price.toString())/1000)+'</p><h2>'+result_item[prod_item].product_name.toString()+'</h2></a></li>');										
 									}
 									else
 									{
 										
-										prod_display.push('<li><a id="'+result_item[prod_item].ProductUUID.toString()+'" class="open-popup-link" href="#popup-product"><img border:1px solid #694306; width="140px" height="140px"  src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/>');	
+										prod_display.push('<li><a id="'+result_item[prod_item].ProductUUID.toString()+'" class="open-popup-link" href="#popup-product"><img border:1px solid #694306; width="170px" height="170px" src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/>');	
 										prod_display.push('<div class="icon">')
 										
 										if(result_item[prod_item].is_gluttonfree.toString() == "1")
