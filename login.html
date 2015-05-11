@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+   <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"> -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+	 <link href="assets/css/styles.css" rel="stylesheet"> 
+	<link href="assets/css/pageslider.css" rel="stylesheet">
+	<title>TAPAS MOVIDA</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="js/jquery-1.11.2.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
+	
+
+</head>
+<body class="page-login">
+<!--<script src="https://isms-socialauth.appback.com/_api/_files/hoodie.js" type="mce-text/javascript"></script>-->
+<script type="mce-text/javascript">// <![CDATA[
+   // var app = new Hoodie('https://isms-socialauth.appback.com');
+// ]]></script>
+<script src="js/hello.js"></script>
+<script>
+	
+
+	hello.init
+	({ 
+	facebook : '1627309754155989'
+},{redirect_uri:'http://tapas.ifabula.com/oauthcallback2.html'});
+
+
+	hello.on('auth.login', function(auth){
+	
+	// call user information, for the given network
+	hello( auth.network ).api( '/me' ).then( function(r){
+		// Inject it into the container
+		var label = document.getElementById( "profile_"+ auth.network );
+		if(!label){
+			label = document.createElement('div');
+			label.id = "profile_"+auth.network;
+			document.getElementById('profile').appendChild(label);
+		}
+		label.innerHTML = '<img src="'+ r.thumbnail +'" /> Hey '+r.name;
+	});
+});
+	
+	
+	
+	
+	
+     // Defaults to sessionStorage for storing the Facebook token
+    // openFB.init({appId: '1627309754155989'});
+	
+    //  Uncomment the line below to store the Facebook token in localStorage instead of sessionStorage
+    //  openFB.init({appId: 'YOUR_FB_APP_ID', tokenStore: window.localStorage});
+
+    function login_fb()
+	{
+        openFB.login(
+                function(response)
+				{
+                    if(response.status === 'connected') {
+                        alert('Facebook login succeeded, got access token: ' + response.authResponse.token);
+                    } else {
+                        alert('Facebook login failed: ' + response.error);
+                    }
+                }, {scope: 'email,read_stream,publish_stream'});
+    }
+
+    function getInfo() {
+        openFB.api({
+            path: '/me',
+            success: function(data) {
+                console.log(JSON.stringify(data));
+                document.getElementById("userName").innerHTML = data.name;
+                document.getElementById("userPic").src = 'http://graph.facebook.com/' + data.id + '/picture?type=small';
+            },
+            error: errorHandler});
+    }
+
+    function share() {
+        openFB.api({
+            method: 'POST',
+            path: '/me/feed',
+            params: {
+                message: document.getElementById('Message').value || 'Testing Facebook APIs'
+            },
+            success: function() {
+                alert('the item was posted on Facebook');
+            },
+            error: errorHandler});
+    }
+
+    function revoke() {
+        openFB.revokePermissions(
+                function() {
+                    alert('Permissions revoked');
+                },
+                errorHandler);
+    }
+
+    function logout() {
+        openFB.logout(
+                function() {
+                    alert('Logout successful');
+                },
+                errorHandler);
+    }
+	
+	function ValidateEmail(email)
+	{
+		var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+		if(document.getElementById("email").value.match(mailformat))
+		{
+			//document.form1.text1.focus();
+			return true;
+		}
+		else
+		{
+			//alert("You have entered an invalid email address!");
+			//document.form1.text1.focus();
+			return false;
+		}
+	}
+
+
+    function errorHandler(error) {
+        alert(error.message);
+    }
+	
+	function login()
+	{
+		
+			var email = document.getElementById("email").value;
+			var empUUID = sessionStorage.UserUUID;
+			//ValidateEmail(email);
+			
+			if(ValidateEmail(email) == true)
+			{
+				$.ajax({
+					type: "POST",
+					url : "http://tapas.ifabula.com/tapas_controller/login_customer",
+					//url : "http://localhost/isms_sdk/tapas_controller/login_customer",
+					data : "email="+email+"&emp_id="+empUUID,
+					//contentType: "application/json;charset=utf-8",
+					//dataType: "json",
+					success: function(msg,string,jqXHR)
+					{
+							//alert(msg.name);
+							sessionStorage.CustomerEmail = email;
+							window.location.replace("catalog.html");
+							
+					},
+					 error: function(data, errorThrown)
+					  {
+						  alert('request failed :'+errorThrown);
+					  }				
+				})
+			}
+	}
+
+</script>
+
+
+
+    <div class="right-side">
+	<div class="logo"></div>
+	<div class="right-content">
+	<p style="padding-left:20px">You are being served by <br><br> <b id ='emp_name' name='emp_name'></b></p>
+	<br><br>
+	<div class="tombol-button">
+	<input type="submit" name="log_out" id="log_out"  value='Log Out'/>
+	</div>
+	</div>
+</div>
+<div class="left-side">
+	<div class="login-wrapper">
+		<h1>Welcome to Tapas Movida</h1>
+		<h3>Please Login</h3>
+		<div class="login-email">
+		<form action ="javascript:login()">
+			<input type="email" name="email" id="email" placeholder="PLease enter valid Email Address" required />
+			<input type="submit" name="button" id="button"   value='LOGIN' />
+		</form>
+		</div>
+		<div id ="result"></div>
+                
+		<div class="login-socmed">
+
+			<!-- <div class="login-facebook">
+				<a href="#" onclick="hello( 'facebook').login().then( function(){
+	alert('Thank you, You are signed in to Facebook');
+		hello( 'facebook' ).api('me').then(function(json){
+			
+			sessionStorage.CustomerName = json.name ;
+			sessionStorage.CustomerEmail = json.name ;
+			sessionStorage.CustomerEmailFB = json.email ;
+			
+			var email = json.email;
+			var empUUID = sessionStorage.UserUUID;
+			$.ajax({
+				type: 'POST',
+				url : 'http://127.0.0.1/tapas/tapas_controller/login_customer',
+				data : 'email='+email+'&emp_id='+empUUID,
+				success: function(msg,string,jqXHR)
+				{
+						//alert(msg.name);
+						sessionStorage.CustomerEmail = email;
+						window.location.replace('catalog.html');
+						
+				},
+				 error: function(data, errorThrown)
+				  {
+					  alert('bAH Srequest failed :'+errorThrown);
+				  }				
+			})
+			
+			
+		}, function(e){
+			alert('Whoops! ' + e.error.message );
+		});
+	
+}, function( e ){
+	alert('Bah Signin error: ' + e.error.message );
+});"><span class="icon-loginfb"></span> Login with Facebook</a>
+			</div>
+			<div class="login-twitter">
+				<a href="#" onclick="hello( 'twitter').login().then( function(){
+	alert('Thank you, You are signed in to Facebook');
+}, function(e){
+			alert('Whoops! ' + e.error.message );
+		});	"><span class="icon-logintwitter"></span> Login with Twitter</a>
+			</div>
+			-->
+		</div>
+		<div class="clear"></div>
+		<p>Jalan Cipete Raya No 66. Cilandak. Jakarta Selatan. Indonesia 12410.<br />Phone: +6221-7510851</p>
+		<p>www.tapasmovida.co.id</p>
+		<div class="link-socmed">
+			<ul>
+				<li>
+					<a href="#"><span class="icon-facebook"></span> Tapas Movida Jakarta</a>
+				</li>
+				<li>
+					<a href="#"><span class="icon-twitter"></span> @TapasMovida</a>
+				</li>
+				<li>
+					<a href="#"><span class="icon-instagram"></span> @TapasMovidaJkt</a>
+				</li>
+				<li>
+					<a href="#"><span class="icon-pinterest"></span> Tapas Movida Jakarta</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>	
+
+
+
+
+
+
+
+
+<script src="lib/jquery.js"></script>
+<script src="lib/pageslider.js"></script>
+<script src="lib/router.js"></script>
+<script src="js/services/memory/EmployeeService.js"></script>
+<script src="js/EmployeeListView.js"></script>
+<script src="js/HomeView.js"></script>
+<script src="js/EmployeeView.js"></script>
+<script src="js/LoginView.js"></script>
+
+ <script src="js/tapas.js"></script> 
+<script src="lib/fastclick.js"></script>
+
+
+</body>
+</html>
