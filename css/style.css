@@ -52,7 +52,9 @@ table {
 
 .scroll-pane
 {
-
+	width: 100%;
+	height: 200px;
+	overflow: auto;
 }
 .horizontal-only
 {
@@ -82,7 +84,7 @@ body.page-login{background:url('../images/bg-body.png') !important;}
 
 .left-side{display: block; position: relative; padding-right:210px;}
 .left-side-content{padding-top:120px; position: relative; display: block; padding-bottom:40px;}
-.right-side{background:#020202; color:#fff; width:210px; height: 750px;; display: block; position:absolute; right:0; z-index: 10; box-shadow:0 -10px 10px rgba(0,0,0,.7);}
+.right-side{background:#020202; color:#fff; width:210px; height: 100%;; display: block; position:fixed; right:0; z-index: 10; box-shadow:0 -10px 10px rgba(0,0,0,.7);}
 .logo{background:url('../images/logo-tapas.jpg') no-repeat; width:175px; height:175px; margin:10px auto;}
 .right-content-row{display: block; margin:20px 0;}
 .profile{text-align:center;}
@@ -129,9 +131,9 @@ input[type=button].minus{background: url('../images/bt-minus.png') no-repeat; wi
 .sub-nav ul li.active, .sub-nav ul li:hover{background:#533310;}
 .sub-nav ul li.active a, .sub-nav ul li:hover a{color:#d37d23; text-decoration: none;}
 
-.catalog-content{display: block; position: relative; padding-bottom:40px; text-align: center; max-width:2000px}
+.catalog-content{display: block; position: relative; padding-bottom:40px; text-align: center; max-width:1300px}
 .catalog-content h1{font-family: 'Merriweather', serif; text-align: center; margin:20px 0; text-transform: uppercase; font-size:24px;}
-.catalog-content ul li{float:left; margin-top:20px; margin-bottom:20px; width:250px; padding-left:15px; text-align: center;}
+.catalog-content ul li{float:left; margin-top:20px; margin-bottom:20px; width:250px; padding-left:10px; text-align: center;}
 .catalog-content ul li img{padding:3px; margin: 0 auto; text-align: center;}
 .catalog-content ul li img icon{width:35px; height:35px; text-align: center;}
 .catalog-content ul li h2{font-family: 'Merriweather', serif; font-size:14px; font-style: italic; color:#231600; height: 40px; margin:10px 0; padding-bottom:10px; line-height: 18px; text-align: center;}
@@ -147,12 +149,12 @@ input[type=button].minus{background: url('../images/bt-minus.png') no-repeat; wi
   position: relative;
   padding: 20px;
   width: auto;
-  max-width: 510px;
+  max-width: 500px;
   margin: 20px auto;
   color:#fff;
   text-align: center;
 }
-.popup-product-img img{max-height:510px; padding:3px; border:2px solid #fff;}
+.popup-product-img img{max-height:420px; padding:3px; border:2px solid #fff;}
 .popup-product-img h1{font-family: "Merriweather", serif; font-size:14px; font-style: italic; text-align: center; margin:10px 0;}
 .popup-product-description{font-size:12px; line-height:18px;}
 .popup-product-option input[type=text]{width:30px; text-align: center; margin:0 10px;}
