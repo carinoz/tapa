@@ -369,7 +369,8 @@
 					}
 					else if(result_item[prod_item].CategoryUUID.toString() == "1a4bf4f1-459f-49c0-b8ef-12810ae93560") //main course
 					{
-						var cekno = 0;
+						//alert('mulai');
+						//var cekno = 0;
 						var subtotal_side = '';
 						var side_id = '';
 						var price_side = '';
@@ -387,26 +388,36 @@
 							dataType: "json",
 							success: function(result_side_item)
 							{
-								
+								--no;
+								//alert('dua'+no);
 								for (var prod_side_item in result_side_item)
 								{
 									side_id = result_side_item[prod_side_item].ProductUUID.toString();
 									if(side_id != '2b5ac570-8592-4ed9-917d-195590d9cd1b')
 									{
-										alert('a'+no);
-										cekno++;
+										++no;
+										//alert('ada sid dish'+no);
+										//cekno++;
 										//++no;
-										remarks[no] = '';
+										//remarks[no] = '';
 										price_side  = parseFloat(result_side_item[prod_side_item].price.toString()) / 1000;
 										order_display.push('<li><h4> Sidedish : '+result_side_item[prod_side_item].product_name.toString()+'</h4><p><span id="qty'+no+'">'+qty+'</span> x '+numberWithCommas(parseFloat(result_side_item[prod_side_item].price.toString())/1000)+' <input id="'+qty+'" type="button" class="plus" onclick="setOrderUp(\''+no+'\',\''+result_side_item[prod_side_item].product_name.toString()+'\',\''+price_side+'\',\''+result_side_item[prod_side_item].ProductUUID.toString()+'\')" /> <input type="button" class="minus" onclick="setOrderDown(\''+no+'\',\''+result_side_item[prod_side_item].product_name.toString()+'\',\''+price_side+'\',\''+result_side_item[prod_side_item].ProductUUID.toString()+'\')"  /></p><div class="price" id="subtotal'+no+'">'+numberWithCommas(parseFloat(result_side_item[prod_side_item].price.toString())/1000 * parseFloat(qty))+'</div></li>');
 										order_confirm.push('<table border="1px" width="100%"><tr><td align="left" width="65%">Sidedish : '+result_side_item[prod_side_item].product_name.toString()+'</td><td width="20%">'+qty+' x '+numberWithCommas(parseFloat(result_side_item[prod_side_item].price.toString())/1000)+'<td width="15%">'+numberWithCommas(parseFloat(result_side_item[prod_side_item].price.toString())/1000 * parseFloat(qty))+'</td></tr></table><br>');
 										subtotal_side = parseFloat(result_side_item[prod_side_item].price.toString())/1000 * parseFloat(qty);
 										//++no;
 										//alert("skrg no " +no);
+										if(result_item[prod_item].is_gluttonfree.toString() == "1"){
+											menu_type = "";
+										}
+										//alert('dish '+no);
+									}else{
+										if(result_item[prod_item].is_gluttonfree.toString() == "1"){
+											menu_type = "";
+										}
 									}
 								}
-								if (cekno>0){ --no; }
-								//--no;
+								//if (cekno>0){ --no; }
+								
 								alert(menu_name +' with '+ result_side_item[prod_side_item].product_name.toString() + '  has been added to order list !');
 								
 								$("#list_order").hide().fadeIn('fast');
@@ -423,19 +434,23 @@
 								}
 								else if(result_item[prod_item].CategoryUUID.toString() == '1a4bf4f1-459f-49c0-b8ef-12810ae93560')//main cource
 								{
-									if(result_item[prod_item].is_gluttonfree.toString() != "1")
+									if(result_item[prod_item].is_gluttonfree.toString() == "1")
 									{
-										alert('if');
-										menu_type = $('#menu_type').val();
+										//menu_type = $('#menu_type').val();
 										remarks[no] = menu_type;
-									}else{
-										alert('else');
+										//alert('if '+menu_type);
+									}
+									else{
+										//alert('else'+menu_type);
 										remarks[no] = "";
 									}
-									
+									if (result_item[prod_item].ProductUUID.toString() != '2b5ac570-8592-4ed9-917d-195590d9cd1b'){
+										remarks[no-1] = menu_type;
+									}
 									//remarks[no] = menu_type;
-									alert(remarks[no]);
-									alert(no);
+									//alert('main '+no);
+									//alert(remarks[no]);
+									//alert('main course'+no);
 									order_list.push([product_id,menu_name,qty,subtotal,menu_type]);	
 									if(side_id != '2b5ac570-8592-4ed9-917d-195590d9cd1b')
 									{	
@@ -449,6 +464,8 @@
 									remarks[no] = pasta_type;
 									order_list.push([product_id,menu_name,qty,subtotal,pasta_type]);
 								}
+								++no;
+								//alert('sekarang no menjadi '+no);
 							}
 						});
 		
@@ -473,7 +490,7 @@
 							pasta_type = "Pasta type : " + $('#pasta_type').val();
 							remarks[no] = pasta_type; 
 							order_list.push([product_id,menu_name,qty,subtotal,pasta_type]);
-							alert(no);
+							//alert(no);
 						}
 						else if(result_item[prod_item].CategoryUUID.toString() == '1a4bf4f1-459f-49c0-b8ef-12810ae93560' && result_item[prod_item].is_gluttonfree.toString() == '0')
 						{
@@ -495,8 +512,8 @@
 					magnificPopup.close(); 
 						
 				}
-				
 				++no;
+				//alert('Looping dikurangi -1 = '+no);
 			}
 		});
 		
@@ -716,7 +733,7 @@ function submit_order()
 				ol.push(order_list[i]);
 			}
 		}
-		alert(ol);
+		//alert(ol);
 		var magnificPopup = $.magnificPopup.instance;
 		var obj_order = JSON.stringify(ol,['ProductUUID','product_name','qty','subtotal']);
 		var str_total = $("#total_order").html();
@@ -726,13 +743,13 @@ function submit_order()
 		var service_fee = (parseFloat(new_subtotal) + parseFloat(ppn)) * 0.1;
 		//var new_subtotal = parseFloat(total_order.replace(",","")) * 1000;
 		var grand_total = parseFloat(new_subtotal) + parseFloat(ppn) + parseFloat(service_fee);
-		alert(obj_order);
-		/*
+		//alert(obj_order);
+		
 		$.ajax
 		({
 			type: "POST",
-			//url : "http://tapas.ifabula.com/tapas_controller/submit_order/",
-			url : "http://localhost/isms_sdk/tapas_controller/submit_order/",
+			url : "http://tapas.ifabula.com/tapas_controller/submit_order/",
+			//url : "http://localhost/isms_sdk/tapas_controller/submit_order/",
 			data : "order_list="+obj_order+"&EmployeeUUID="+sessionStorage.UserUUID+"&CustomerEmail="+sessionStorage.CustomerEmail+"&table_no="+sessionStorage.table_no+"&subtotal="+new_subtotal+"&ppn="+ppn+"&fee="+service_fee+"&grand_total="+grand_total,
 			//contentType: "application/json;charset=utf-8",
 			dataType: "json",
@@ -746,7 +763,7 @@ function submit_order()
 			//alert(order_list);
 			sessionStorage.clear();
 			window.location.replace("index.html");
-		*/
+		
 		
 	}
 		
