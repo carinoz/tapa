@@ -65,8 +65,7 @@ table {
 h1{font-size:28px;}
 h2{font-size:24px;}
 h3{font-size:22px;}
-h4{font-size:20px; padding-left:10px}
-span{padding-left:10px}
+h4{font-size:20px;}
 h5{font-size:18px;}
 h6{font-size:14px;}
 p{font-size:12px;}
@@ -92,7 +91,7 @@ body.page-login{background:url('../images/bg-body.png') !important;}
 .profile p{font-size:14px; margin:10px 0;}
 .order-list{border-bottom:1px dashed #fff; display: block;}
 .order-list p.title{text-align:center; border-bottom:1px solid #fff; padding:5px 0; font-size:9px; letter-spacing: 5px;}
-.order-list-content{height:200px; overflow: scroll; margin-top:10px;}
+.order-list-content{height:200px; overflow: scroll; margin:0 10px; padding:10px 0;}
 .order-list-content ul li{display:block; position: relative; padding-right:50px; margin-bottom:20px;}
 .order-list-content ul li h4{font-size:14px; line-height:18px; margin-bottom:5px;}
 .order-list-content ul li input[type=button]{margin-left:5px;}

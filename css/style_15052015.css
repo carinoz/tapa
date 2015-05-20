@@ -65,8 +65,7 @@ table {
 h1{font-size:28px;}
 h2{font-size:24px;}
 h3{font-size:22px;}
-h4{font-size:20px; padding-left:10px}
-span{padding-left:10px}
+h4{font-size:20px;}
 h5{font-size:18px;}
 h6{font-size:14px;}
 p{font-size:12px;}
@@ -85,14 +84,14 @@ body.page-login{background:url('../images/bg-body.png') !important;}
 
 .left-side{display: block; position: relative; padding-right:210px;}
 .left-side-content{padding-top:120px; position: relative; display: block; padding-bottom:40px;}
-.right-side{background:#020202; color:#fff; width:210px; height: 400%;; display: block; position:absolute; right:0; z-index: 10; box-shadow:0 -10px 10px rgba(0,0,0,.7);}
+.right-side{background:#020202; color:#fff; width:210px; height: 100%; float:top; display: block; position:fixed; right:0; z-index: 10; box-shadow:0 -10px 10px rgba(0,0,0,.7);}
 .logo{background:url('../images/logo-tapas.jpg') no-repeat; width:175px; height:175px; margin:10px auto;}
 .right-content-row{display: block; margin:20px 0;}
 .profile{text-align:center;}
 .profile p{font-size:14px; margin:10px 0;}
 .order-list{border-bottom:1px dashed #fff; display: block;}
 .order-list p.title{text-align:center; border-bottom:1px solid #fff; padding:5px 0; font-size:9px; letter-spacing: 5px;}
-.order-list-content{height:200px; overflow: scroll; margin-top:10px;}
+.order-list-content{height:200px; overflow: scroll; margin:0 10px; padding:10px 0;}
 .order-list-content ul li{display:block; position: relative; padding-right:50px; margin-bottom:20px;}
 .order-list-content ul li h4{font-size:14px; line-height:18px; margin-bottom:5px;}
 .order-list-content ul li input[type=button]{margin-left:5px;}
@@ -147,7 +146,6 @@ input[type=button].minus{background: url('../images/bt-minus.png') no-repeat; wi
 .left-side-content p.footnote{background:url('../images/bg-body2.jpg'); font-size:10px; padding:10px; width:100%; position: fixed; display: block; bottom:0;}
 
 .popup-product {
-	 float:inherit;
   position: relative;
   padding: 20px;
   width: auto;

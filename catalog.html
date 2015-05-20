@@ -94,7 +94,7 @@
 		{
 			$("#qty"+no).html("1");
 		}
-		order_display[no] ='<li><h4>'+menu_name+'</h4><p><span id="qty'+no+'">'+qty+'</span> x '+numberWithCommas(price)+' <input id="'+qty+'" type="button" class="plus" onclick="setOrderUp(\''+no+'\',\''+menu_name+'\',\''+price+'\',\''+bev_id[x]+'\')" /> <input type="button" class="minus" onclick="setOrderDown(\''+no+'\',\''+menu_name+'\',\''+price+'\',\''+bev_id[x]+'\')"  /></p><div class="price" id="subtotal'+no+'">'+numberWithCommas(parseFloat(price) * parseFloat(qty))+'</div></li>';
+		order_display[no] ='<li><h4>'+menu_name+'</h4><p><span id="qty'+no+'">'+qty+'</span> x '+numberWithCommas(price)+' <input id="'+qty+'" type="button" class="plus" onclick="setOrderUp(\''+no+'\',\''+menu_name+'\',\''+price+'\',\''+bev_id[x]+'\')" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="minus" onclick="setOrderDown(\''+no+'\',\''+menu_name+'\',\''+price+'\',\''+bev_id[x]+'\')"  /></p><div class="price" id="subtotal'+no+'">'+numberWithCommas(parseFloat(price) * parseFloat(qty))+'</div></li>';
 		order_confirm[no] ='<li><h4>'+menu_name+'<h4> '+qty+' x '+numberWithCommas(price)+'<div class="" align="right">'+numberWithCommas(parseFloat(price) * parseFloat(qty))+'</div></h4></li>';			
 		
 		order_list[no] = [product_id,menu_name,qty,new_subtotal,remarks[no]];
@@ -142,7 +142,7 @@
 				order_list[no] = [product_id,menu_name,qty,new_subtotal,remarks[no]];
 				
 				order_confirm[no] ='<li><h4>'+menu_name+'<h4> '+qty+' x '+numberWithCommas(price)+'<div class="" align="right">'+numberWithCommas(parseFloat(price) * parseFloat(qty))+'</div></h4></li>';
-				order_display[no] ='<li><h4>'+menu_name+'</h4><p><span id="qty'+no+'">'+qty+'</span> x '+numberWithCommas(price)+' <input id="'+qty+'" type="button" class="plus" onclick="setOrderUp(\''+no+'\',\''+menu_name+'\',\''+price+'\',\''+bev_id[x]+'\')" /> <input type="button" class="minus" onclick="setOrderDown(\''+no+'\',\''+menu_name+'\',\''+price+'\',\''+bev_id[x]+'\')"  /></p><div class="price" id="subtotal'+no+'">'+numberWithCommas(parseFloat(price) * parseFloat(qty))+'</div></li>';
+				order_display[no] ='<li><h4>'+menu_name+'</h4><p><span id="qty'+no+'">'+qty+'</span> x '+numberWithCommas(price)+' <input id="'+qty+'" type="button" class="plus" onclick="setOrderUp(\''+no+'\',\''+menu_name+'\',\''+price+'\',\''+bev_id[x]+'\')" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="minus" onclick="setOrderDown(\''+no+'\',\''+menu_name+'\',\''+price+'\',\''+bev_id[x]+'\')"  /></p><div class="price" id="subtotal'+no+'">'+numberWithCommas(parseFloat(price) * parseFloat(qty))+'</div></li>';
 				
 				$("#qty"+no).html(qty);						
 				$("#subtotal"+no).html(numberWithCommas(new_subtotal));
@@ -247,7 +247,7 @@
 				price = parseFloat(bev_price[x])/1000;
 				menu_name = bev_name[x];
 				//product_id = result_item[prod_item].ProductUUID.toString();
-				order_display.push('<li><h4>'+menu_name + '</h4><p><span id="qty'+no+'">'+qty+'</span> x '+numberWithCommas(price)+' <input id="'+qty+'" type="button" class="plus" onclick="setOrderUp(\''+no+'\',\''+menu_name+'\',\''+price+'\',\''+bev_id[x]+'\')" /> <input type="button" class="minus" onclick="setOrderDown(\''+no+'\',\''+menu_name+'\',\''+price+'\',\''+bev_id[x]+'\')"  /></p><div class="price" id="subtotal'+no+'">'+numberWithCommas(price * parseFloat(qty))+'</div></li>');
+				order_display.push('<li><h4>'+menu_name + '</h4><p><span id="qty'+no+'">'+qty+'</span> x '+numberWithCommas(price)+' <input id="'+qty+'" type="button" class="plus" onclick="setOrderUp(\''+no+'\',\''+menu_name+'\',\''+price+'\',\''+bev_id[x]+'\')" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="minus" onclick="setOrderDown(\''+no+'\',\''+menu_name+'\',\''+price+'\',\''+bev_id[x]+'\')"  /></p><div class="price" id="subtotal'+no+'">'+numberWithCommas(price * parseFloat(qty))+'</div></li>');
 				order_confirm.push('<table border="1px" width="100%"><tr><td align="left" width="65%">'+bev_name[x]+' '+$('#menu_type'+x).val()+'</td><td width="20%">'+qty+' x '+numberWithCommas(price)+'<td width="15%">'+numberWithCommas(price * parseFloat(qty))+'</td></tr></table><br>');
 					
 	
@@ -350,7 +350,8 @@
 						document.getElementById("total_order").innerHTML = numberWithCommas(total_order);
 						if(result_item[prod_item].CategoryUUID.toString() == '26b4551c-656a-413d-b2a1-bf6710fd9f2d')
 						{
-							pasta_type = "Pasta type : " + $('#pasta_type').val();
+							//pasta_type = "Pasta type : " + $('#pasta_type').val();
+							pasta_type = $('#pasta_type').val();
 							remarks[no] = pasta_type;
 							order_list.push([product_id,menu_name,qty,subtotal,pasta_type]);
 						}
@@ -374,7 +375,7 @@
 						var subtotal_side = '';
 						var side_id = '';
 						var price_side = '';
-						order_display.push('<li><h4>'+result_item[prod_item].product_name.toString()+'</h4><p><span id="qty'+no+'">'+qty+'</span> x '+numberWithCommas(parseFloat(result_item[prod_item].price.toString())/1000)+' <input id="'+qty+'" type="button" class="plus" onclick="setOrderUp(\''+no+'\',\''+menu_name+'\',\''+price+'\',\''+product_id+'\')" /> <input type="button" class="minus" onclick="setOrderDown(\''+no+'\',\''+menu_name+'\',\''+price+'\',\''+product_id+'\')"  /></p><div class="price" id="subtotal'+no+'">'+numberWithCommas(parseFloat(result_item[prod_item].price.toString())/1000 * parseFloat(qty))+'</div></li>');
+						order_display.push('<li><h4>'+result_item[prod_item].product_name.toString()+'</h4><p><span id="qty'+no+'">'+qty+'</span> x '+numberWithCommas(parseFloat(result_item[prod_item].price.toString())/1000)+' <input id="'+qty+'" type="button" class="plus" onclick="setOrderUp(\''+no+'\',\''+menu_name+'\',\''+price+'\',\''+product_id+'\')" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="minus" onclick="setOrderDown(\''+no+'\',\''+menu_name+'\',\''+price+'\',\''+product_id+'\')"  /></p><div class="price" id="subtotal'+no+'">'+numberWithCommas(parseFloat(result_item[prod_item].price.toString())/1000 * parseFloat(qty))+'</div></li>');
 						order_confirm.push('<table border="1px" width="100%"><tr><td align="left" width="65%">'+result_item[prod_item].product_name.toString()+'</td><td width="20%">'+qty+' x '+numberWithCommas(parseFloat(result_item[prod_item].price.toString())/1000)+'<td width="15%">'+numberWithCommas(parseFloat(result_item[prod_item].price.toString())/1000 * parseFloat(qty))+'</td></tr></table><br>');
 						subtotal = parseFloat(result_item[prod_item].price.toString())/1000 * parseFloat(qty);
 						total_order = Number(total_order) + Number(subtotal);
@@ -401,7 +402,7 @@
 										//++no;
 										//remarks[no] = '';
 										price_side  = parseFloat(result_side_item[prod_side_item].price.toString()) / 1000;
-										order_display.push('<li><h4> Sidedish : '+result_side_item[prod_side_item].product_name.toString()+'</h4><p><span id="qty'+no+'">'+qty+'</span> x '+numberWithCommas(parseFloat(result_side_item[prod_side_item].price.toString())/1000)+' <input id="'+qty+'" type="button" class="plus" onclick="setOrderUp(\''+no+'\',\''+result_side_item[prod_side_item].product_name.toString()+'\',\''+price_side+'\',\''+result_side_item[prod_side_item].ProductUUID.toString()+'\')" /> <input type="button" class="minus" onclick="setOrderDown(\''+no+'\',\''+result_side_item[prod_side_item].product_name.toString()+'\',\''+price_side+'\',\''+result_side_item[prod_side_item].ProductUUID.toString()+'\')"  /></p><div class="price" id="subtotal'+no+'">'+numberWithCommas(parseFloat(result_side_item[prod_side_item].price.toString())/1000 * parseFloat(qty))+'</div></li>');
+										order_display.push('<li><h4> Sidedish : '+result_side_item[prod_side_item].product_name.toString()+'</h4><p><span id="qty'+no+'">'+qty+'</span> x '+numberWithCommas(parseFloat(result_side_item[prod_side_item].price.toString())/1000)+' <input id="'+qty+'" type="button" class="plus" onclick="setOrderUp(\''+no+'\',\''+result_side_item[prod_side_item].product_name.toString()+'\',\''+price_side+'\',\''+result_side_item[prod_side_item].ProductUUID.toString()+'\')" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="minus" onclick="setOrderDown(\''+no+'\',\''+result_side_item[prod_side_item].product_name.toString()+'\',\''+price_side+'\',\''+result_side_item[prod_side_item].ProductUUID.toString()+'\')"  /></p><div class="price" id="subtotal'+no+'">'+numberWithCommas(parseFloat(result_side_item[prod_side_item].price.toString())/1000 * parseFloat(qty))+'</div></li>');
 										order_confirm.push('<table border="1px" width="100%"><tr><td align="left" width="65%">Sidedish : '+result_side_item[prod_side_item].product_name.toString()+'</td><td width="20%">'+qty+' x '+numberWithCommas(parseFloat(result_side_item[prod_side_item].price.toString())/1000)+'<td width="15%">'+numberWithCommas(parseFloat(result_side_item[prod_side_item].price.toString())/1000 * parseFloat(qty))+'</td></tr></table><br>');
 										subtotal_side = parseFloat(result_side_item[prod_side_item].price.toString())/1000 * parseFloat(qty);
 										//++no;
@@ -428,7 +429,8 @@
 								document.getElementById("total_order").innerHTML = numberWithCommas(total_order);
 								if(result_item[prod_item].CategoryUUID.toString() == '26b4551c-656a-413d-b2a1-bf6710fd9f2d')
 								{
-									pasta_type = "Pasta type : " + $('#pasta_type').val();
+									//pasta_type = "Pasta type : " + $('#pasta_type').val();
+									pasta_type = $('#pasta_type').val();
 									remarks[no] = pasta_type;
 									order_list.push([product_id,menu_name,qty,subtotal,pasta_type]);
 								}
@@ -473,7 +475,7 @@
 					}
 					else
 					{
-						order_display.push('<li><h4>'+result_item[prod_item].product_name.toString()+'</h4><p><span id="qty'+no+'">'+qty+'</span> x '+numberWithCommas(parseFloat(result_item[prod_item].price.toString())/1000)+' <input id="'+qty+'" type="button" class="plus" onclick="setOrderUp(\''+no+'\',\''+menu_name+'\',\''+price+'\',\''+product_id+'\')" /> <input type="button" class="minus" onclick="setOrderDown(\''+no+'\',\''+menu_name+'\',\''+price+'\',\''+product_id+'\')"  /></p><div class="price" id="subtotal'+no+'">'+numberWithCommas(parseFloat(result_item[prod_item].price.toString())/1000 * parseFloat(qty))+'</div></li>');
+						order_display.push('<li><h4>'+result_item[prod_item].product_name.toString()+'</h4><p><span id="qty'+no+'">'+qty+'</span> x '+numberWithCommas(parseFloat(result_item[prod_item].price.toString())/1000)+' <input id="'+qty+'" type="button" class="plus" onclick="setOrderUp(\''+no+'\',\''+menu_name+'\',\''+price+'\',\''+product_id+'\')" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="minus" onclick="setOrderDown(\''+no+'\',\''+menu_name+'\',\''+price+'\',\''+product_id+'\')"  /></p><div class="price" id="subtotal'+no+'">'+numberWithCommas(parseFloat(result_item[prod_item].price.toString())/1000 * parseFloat(qty))+'</div></li>');
 						order_confirm.push('<table border="1px" width="100%"><tr><td align="left" width="65%">'+result_item[prod_item].product_name.toString()+'</td><td width="20%">'+qty+' x '+numberWithCommas(parseFloat(result_item[prod_item].price.toString())/1000)+'<td width="15%">'+numberWithCommas(parseFloat(result_item[prod_item].price.toString())/1000 * parseFloat(qty))+'</td></tr></table><br>');
 						subtotal = parseFloat(result_item[prod_item].price.toString())/1000 * parseFloat(qty);
 						
@@ -487,7 +489,8 @@
 						document.getElementById("total_order").innerHTML = numberWithCommas(total_order);
 						if(result_item[prod_item].CategoryUUID.toString() == '26b4551c-656a-413d-b2a1-bf6710fd9f2d')
 						{
-							pasta_type = "Pasta type : " + $('#pasta_type').val();
+							//pasta_type = "Pasta type : " + $('#pasta_type').val();
+							pasta_type = $('#pasta_type').val();
 							remarks[no] = pasta_type; 
 							order_list.push([product_id,menu_name,qty,subtotal,pasta_type]);
 							//alert(no);
@@ -547,7 +550,7 @@ $(document).on('click', '.open-popup-link',function()
 					  $.magnificPopup.open({
 					  items: 
 					  {
-					 src: '<div id="popup-product'+result_item[prod_item].ProductUUID.toString()+'" class="popup-product"><div class="popup-product-img"><img src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/><h1>'+result_item[prod_item].product_name.toString()+'</h1></div><p class="popup-product-description">'+result_item[prod_item].description.toString()+'</p><div class="popup-product-option tombol-button">QUANTITY &nbsp;  <input id="down" onClick="setQuantityDown()" type="button" class="minus"  /> <input id="qty" type="text" value="1" min="0" /><select name="pasta_type" id="pasta_type"><option  value="Linguini">Linguini</option><option value="Spaghetti">Spaghetti</option><option value="Penne">Penne</option></select> &nbsp<input id="up"  type="button" class="plus" onclick="setQuantityUp()" /> <input type="submit" value="ORDER" onclick="add_new_item(\''+result_item[prod_item].ProductUUID.toString()+'\')" /></div></div>',
+					 src: '<div id="popup-product'+result_item[prod_item].ProductUUID.toString()+'" class="popup-product"><div class="popup-product-img"><img src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/><h1>'+result_item[prod_item].product_name.toString()+'</h1></div><p class="popup-product-description">'+result_item[prod_item].description.toString()+'</p><div class="popup-product-option tombol-button">QUANTITY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="down" onClick="setQuantityDown()" type="button" class="minus"  />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="qty" type="text" value="1" min="0" /><select name="pasta_type" id="pasta_type"><option  value="Linguini">Linguini</option><option value="Spaghetti">Spaghetti</option><option value="Penne">Penne</option></select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="up"  type="button" class="plus" onclick="setQuantityUp()" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="ORDER" onclick="add_new_item(\''+result_item[prod_item].ProductUUID.toString()+'\')" /></div></div>',
 					  },
 					  type: 'inline'
 					   });
@@ -572,7 +575,7 @@ $(document).on('click', '.open-popup-link',function()
 									({
 									  items: 
 									  {
-											src: '<div id="popup-product'+result_item[prod_item].ProductUUID.toString()+'" class="popup-product"><div class="popup-product-img"><img src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/><h1>'+result_item[prod_item].product_name.toString()+'</h1></div><p class="popup-product-description">'+result_item[prod_item].description.toString()+'</p><div class="popup-product-option tombol-button">QUANTITY &nbsp;  <input id="down" onClick="setQuantityDown()" type="button" class="minus"  /> <input id="qty"  readonly type="text" value="1" min="0" /> &nbsp<input id="up"  type="button" class="plus" onclick="setQuantityUp()" />  &nbsp;  <select name="menu_type" id="menu_type"><option  value="Glutten">Glutten with sauce</option><option value="Glutten Free">Glutten Free</option></select>  <br><br> SIDE DISH  &nbsp  &nbsp<select name="side_dish" id="side_dish">'+side_dish.join("")+'</select> <br> <input type="submit" value="ORDER" onclick="add_new_item(\''+result_item[prod_item].ProductUUID.toString()+'\')" /></div></div>',
+											src: '<div id="popup-product'+result_item[prod_item].ProductUUID.toString()+'" class="popup-product"><div class="popup-product-img"><img src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/><h1>'+result_item[prod_item].product_name.toString()+'</h1></div><p class="popup-product-description">'+result_item[prod_item].description.toString()+'</p><div class="popup-product-option tombol-button">QUANTITY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="down" onClick="setQuantityDown()" type="button" class="minus"  />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="qty"  readonly type="text" value="1" min="0" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="up"  type="button" class="plus" onclick="setQuantityUp()" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select name="menu_type" id="menu_type"><option  value="Glutten">Glutten with sauce</option><option value="Glutten Free">Glutten Free</option></select>  <br><br> SIDE DISH  &nbsp  &nbsp<select name="side_dish" id="side_dish">'+side_dish.join("")+'</select> <br> <input type="submit" value="ORDER" onclick="add_new_item(\''+result_item[prod_item].ProductUUID.toString()+'\')" /></div></div>',
 									  },
 									  type: 'inline'
 									 });
@@ -600,7 +603,7 @@ $(document).on('click', '.open-popup-link',function()
 									({
 									  items: 
 									  {
-											src: '<div id="popup-product'+result_item[prod_item].ProductUUID.toString()+'" class="popup-product"><div class="popup-product-img"><img src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/><h1>'+result_item[prod_item].product_name.toString()+'</h1></div><p class="popup-product-description">'+result_item[prod_item].description.toString()+'</p><div class="popup-product-option tombol-button">QUANTITY &nbsp;  <input id="down" onClick="setQuantityDown()" type="button" class="minus"  /> <input id="qty"  readonly type="text" value="1" min="0" /> &nbsp<input id="up"  type="button" class="plus" onclick="setQuantityUp()" />  &nbsp;   <br><br> SIDE DISH  &nbsp  &nbsp<select name="side_dish" id="side_dish">'+side_dish.join("")+'</select> <br> <input type="submit" value="ORDER" onclick="add_new_item(\''+result_item[prod_item].ProductUUID.toString()+'\')" /></div></div>',
+											src: '<div id="popup-product'+result_item[prod_item].ProductUUID.toString()+'" class="popup-product"><div class="popup-product-img"><img src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/><h1>'+result_item[prod_item].product_name.toString()+'</h1></div><p class="popup-product-description">'+result_item[prod_item].description.toString()+'</p><div class="popup-product-option tombol-button">QUANTITY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="down" onClick="setQuantityDown()" type="button" class="minus"  />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="qty"  readonly type="text" value="1" min="0" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="up"  type="button" class="plus" onclick="setQuantityUp()" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br> SIDE DISH  &nbsp  &nbsp<select name="side_dish" id="side_dish">'+side_dish.join("")+'</select> <br> <input type="submit" value="ORDER" onclick="add_new_item(\''+result_item[prod_item].ProductUUID.toString()+'\')" /></div></div>',
 									  },
 									  type: 'inline'
 									 });
@@ -629,7 +632,7 @@ $(document).on('click', '.open-popup-link',function()
 					  $.magnificPopup.open({
 					  items: 
 					  {
-						src: '<div id="popup-product'+result_item[prod_item].ProductUUID.toString()+'" class="popup-product"><div class="popup-product-img"><img src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/><h1>'+result_item[prod_item].product_name.toString()+'</h1></div><p class="popup-product-description">'+result_item[prod_item].description.toString()+'</p><div class="popup-product-option">QUANTITY &nbsp;  <input id="down" onClick="setQuantityDown()" type="button" class="minus"  /> <input id="qty"  readonly type="text" value="1" min="0" /> <input id="up"  type="button" class="plus" onclick="setQuantityUp()" /> <input type="submit" value="ORDER" onclick="add_new_item(\''+result_item[prod_item].ProductUUID.toString()+'\')" /></div></div>',
+						src: '<div id="popup-product'+result_item[prod_item].ProductUUID.toString()+'" class="popup-product"><div class="popup-product-img"><img src="http://tapas.ifabula.com/'+result_item[prod_item].image_thumbnail.toString()+'"/><h1>'+result_item[prod_item].product_name.toString()+'</h1></div><p class="popup-product-description">'+result_item[prod_item].description.toString()+'</p><div class="popup-product-option">QUANTITY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="down" onClick="setQuantityDown()" type="button" class="minus"  />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="qty"  readonly type="text" value="1" min="0" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="up"  type="button" class="plus" onclick="setQuantityUp()" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="ORDER" onclick="add_new_item(\''+result_item[prod_item].ProductUUID.toString()+'\')" /></div></div>',
 					  },
 					  type: 'inline'
 				  });
